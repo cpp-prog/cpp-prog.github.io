@@ -1,0 +1,289 @@
+﻿<h1>C ++ - Многопоточность</h1>
+
+<p>Многопоточность - это специализированная форма многозадачности, и многозадачность - это функция, которая позволяет вашему компьютеру одновременно запускать две или несколько программ.&nbsp;В общем, существует два типа многозадачности: основанные на процессах и потоки.</p>
+
+<p>Многозадачность на основе процессов управляет одновременным выполнением программ.&nbsp;Многозадачность на основе потоков связана с одновременным выполнением частей одной и той же программы.</p>
+
+<p>Многопоточная программа содержит две или несколько частей, которые могут запускаться одновременно.&nbsp;Каждая часть такой программы называется потоком, и каждый поток определяет отдельный путь выполнения.</p>
+
+<p>C ++ не содержит встроенной поддержки многопоточных приложений.&nbsp;Вместо этого он полностью полагается на операционную систему для обеспечения этой функции.</p>
+
+<p>В этом руководстве предполагается, что вы работаете над ОС Linux, и мы собираемся писать многопоточную C ++-программу с помощью POSIX.&nbsp;POSIX Threads или Pthreads предоставляют API, которые доступны во многих Unix-подобных системах POSIX, таких как FreeBSD, NetBSD, GNU / Linux, Mac OS X и Solaris.</p>
+
+<h2>Создание потоков</h2>
+
+<p>Следующая процедура используется для создания потока POSIX:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;pthread.h&gt;
+pthread_create (thread, attr, start_routine, arg) </code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;<code>pthread_create</code>&nbsp;создает новый поток и делает его исполняемым.&nbsp;Эта процедура может вызываться любое количество раз из любого места вашего кода.&nbsp;Вот описание параметров:</p>
+
+<table border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td>thread</td>
+			<td>Непрозрачный уникальный идентификатор для нового потока, возвращаемого подпрограммой.</td>
+		</tr>
+		<tr>
+			<td>attr</td>
+			<td>Объект непрозрачного атрибута, который может использоваться для установки атрибутов потока.&nbsp;Вы можете указать объект атрибутов потока или NULL для значений по умолчанию.</td>
+		</tr>
+		<tr>
+			<td>start_routine</td>
+			<td>Подпрограмма C ++, которую поток выполнит после ее создания.</td>
+		</tr>
+		<tr>
+			<td>arg</td>
+			<td>Единственный аргумент, который может быть передан start_routine.&nbsp;Он должен передаваться по ссылке в виде указателя типа void.&nbsp;NULL может использоваться, если аргумент не передается.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Максимальное количество потоков, которые могут быть созданы процессом, зависит от реализации.&nbsp;После создания потоки являются одноранговыми и могут создавать другие потоки.&nbsp;Не существует подразумеваемой иерархии или зависимости между потоками.</p>
+
+<h2>Завершающие темы</h2>
+
+<p>Существует следующая процедура, которую мы используем для завершения потока POSIX:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;pthread.h&gt;
+pthread_exit (status) </code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;<code>pthread_exit</code>&nbsp;используется для явного выхода из потока.&nbsp;Как правило, процедура <code>pthread_exit()</code> вызывается после того, как поток завершил свою работу и больше не требуется для существования.</p>
+
+<p>Если <code>main()</code> заканчивается перед созданными потоками и выходит с помощью <code>pthread_exit ()</code>, остальные потоки будут продолжать выполняться.&nbsp;В противном случае они будут автоматически завершены, когда <code>main() </code>закончит.</p>
+
+<p>Этот простой пример кода создает 5 потоков с помощью процедуры pthread_create ().&nbsp;Каждый поток печатает &quot;Hello World!&quot;.&nbsp;сообщение, а затем завершается вызовом <code>pthread_exit()</code>.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &lt;pthread.h&gt;
+
+using namespace std;
+
+#define NUM_THREADS 5
+
+void *PrintHello(void *threadid) {
+   long tid;
+   tid = (long)threadid;
+   cout &lt;&lt; &quot;Hello World! Thread ID, &quot; &lt;&lt; tid &lt;&lt; endl;
+   pthread_exit(NULL);
+}
+
+int main () {
+   pthread_t threads[NUM_THREADS];
+   int rc;
+   int i;
+   
+   for( i = 0; i &lt; NUM_THREADS; i++ ) {
+      cout &lt;&lt; &quot;main() : creating thread, &quot; &lt;&lt; i &lt;&lt; endl;
+      rc = pthread_create(&amp;threads[i], NULL, PrintHello, (void *)i);
+      
+      if (rc) {
+         cout &lt;&lt; &quot;Error:unable to create thread,&quot; &lt;&lt; rc &lt;&lt; endl;
+         exit(-1);
+      }
+   }
+   pthread_exit(NULL);
+}</code></pre>
+</blockquote>
+
+<p>Скомпилируйте следующую программу, используя библиотеку <code>-lpthread</code> следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>$gcc test.cpp -lpthread</code></pre>
+</blockquote>
+
+<p>Теперь выполним вашу программу, которая дает следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>main() : creating thread, 0
+main() : creating thread, 1
+main() : creating thread, 2
+main() : creating thread, 3
+main() : creating thread, 4
+Hello World! Thread ID, 0
+Hello World! Thread ID, 1
+Hello World! Thread ID, 2
+Hello World! Thread ID, 3
+Hello World! Thread ID, 4</code></pre>
+</blockquote>
+
+<h2>Передача аргументов в потоки</h2>
+
+<p>В этом примере показано, как передать несколько аргументов через структуру.&nbsp;Вы можете передать любой тип данных в обратном вызове потока, поскольку он указывает на void, как описано в следующем примере:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &lt;pthread.h&gt;
+
+using namespace std;
+
+#define NUM_THREADS 5
+
+struct thread_data {
+   int  thread_id;
+   char *message;
+};
+
+void *PrintHello(void *threadarg) {
+   struct thread_data *my_data;
+   my_data = (struct thread_data *) threadarg;
+
+   cout &lt;&lt; &quot;Thread ID : &quot; &lt;&lt; my_data-&gt;thread_id ;
+   cout &lt;&lt; &quot; Message : &quot; &lt;&lt; my_data-&gt;message &lt;&lt; endl;
+
+   pthread_exit(NULL);
+}
+
+int main () {
+   pthread_t threads[NUM_THREADS];
+   struct thread_data td[NUM_THREADS];
+   int rc;
+   int i;
+
+   for( i = 0; i &lt; NUM_THREADS; i++ ) {
+      cout &lt;&lt;&quot;main() : creating thread, &quot; &lt;&lt; i &lt;&lt; endl;
+      td[i].thread_id = i;
+      td[i].message = &quot;This is message&quot;;
+      rc = pthread_create(&amp;threads[i], NULL, PrintHello, (void *)&amp;td[i]);
+      
+      if (rc) {
+         cout &lt;&lt; &quot;Error:unable to create thread,&quot; &lt;&lt; rc &lt;&lt; endl;
+         exit(-1);
+      }
+   }
+   pthread_exit(NULL);
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>main() : creating thread, 0
+main() : creating thread, 1
+main() : creating thread, 2
+main() : creating thread, 3
+main() : creating thread, 4
+Thread ID : 3 Message : This is message
+Thread ID : 2 Message : This is message
+Thread ID : 0 Message : This is message
+Thread ID : 1 Message : This is message
+Thread ID : 4 Message : This is message</code></pre>
+</blockquote>
+
+<h2>Присоединение и отсоединение потоков</h2>
+
+<p>Существуют следующие две процедуры, которые мы можем использовать для объединения или отсоединения потоков -</p>
+
+<blockquote>
+<pre>
+<code>pthread_join (threadid, status) 
+pthread_detach (threadid) </code></pre>
+</blockquote>
+
+<p>Подпрограмма <code>pthread_join ()</code> блокирует вызывающий поток до тех пор, пока указанный поток потоков не завершится.&nbsp;Когда поток создается, один из его атрибутов определяет, является ли он совместимым или отсоединенным.&nbsp;Можно объединить только те потоки, которые созданы как соединяемые.&nbsp;Если поток создается как отсоединенный, он никогда не может быть соединен.</p>
+
+<p>В этом примере показано, как ждать завершения потоков, используя процедуру соединения <code>Pthread</code>.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &lt;pthread.h&gt;
+#include &lt;unistd.h&gt;
+
+using namespace std;
+
+#define NUM_THREADS 5
+
+void *wait(void *t) {
+   int i;
+   long tid;
+
+   tid = (long)t;
+
+   sleep(1);
+   cout &lt;&lt; &quot;Sleeping in thread &quot; &lt;&lt; endl;
+   cout &lt;&lt; &quot;Thread with id : &quot; &lt;&lt; tid &lt;&lt; &quot;  ...exiting &quot; &lt;&lt; endl;
+   pthread_exit(NULL);
+}
+
+int main () {
+   int rc;
+   int i;
+   pthread_t threads[NUM_THREADS];
+   pthread_attr_t attr;
+   void *status;
+
+   // Initialize and set thread joinable
+   pthread_attr_init(&amp;attr);
+   pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_JOINABLE);
+
+   for( i = 0; i &lt; NUM_THREADS; i++ ) {
+      cout &lt;&lt; &quot;main() : creating thread, &quot; &lt;&lt; i &lt;&lt; endl;
+      rc = pthread_create(&amp;threads[i], attr, wait, (void *)i );
+      
+      if (rc) {
+         cout &lt;&lt; &quot;Error:unable to create thread,&quot; &lt;&lt; rc &lt;&lt; endl;
+         exit(-1);
+      }
+   }
+
+   // free attribute and wait for the other threads
+   pthread_attr_destroy(&amp;attr);
+   for( i = 0; i &lt; NUM_THREADS; i++ ) {
+      rc = pthread_join(threads[i], &amp;status);
+      if (rc) {
+         cout &lt;&lt; &quot;Error:unable to join,&quot; &lt;&lt; rc &lt;&lt; endl;
+         exit(-1);
+      }
+      
+      cout &lt;&lt; &quot;Main: completed thread id :&quot; &lt;&lt; i ;
+      cout &lt;&lt; &quot;  exiting with status :&quot; &lt;&lt; status &lt;&lt; endl;
+   }
+
+   cout &lt;&lt; &quot;Main: program exiting.&quot; &lt;&lt; endl;
+   pthread_exit(NULL);
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>main() : creating thread, 0
+main() : creating thread, 1
+main() : creating thread, 2
+main() : creating thread, 3
+main() : creating thread, 4
+Sleeping in thread
+Thread with id : 0 .... exiting
+Sleeping in thread
+Thread with id : 1 .... exiting
+Sleeping in thread
+Thread with id : 2 .... exiting
+Sleeping in thread
+Thread with id : 3 .... exiting
+Sleeping in thread
+Thread with id : 4 .... exiting
+Main: completed thread id :0  exiting with status :0
+Main: completed thread id :1  exiting with status :0
+Main: completed thread id :2  exiting with status :0
+Main: completed thread id :3  exiting with status :0
+Main: completed thread id :4  exiting with status :0
+Main: program exiting.</code></pre>
+</blockquote>

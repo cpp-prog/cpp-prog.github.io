@@ -1,0 +1,210 @@
+﻿<h1>C ++ - Обработка исключений</h1>
+
+<div class="tutorial-content">
+<p>Исключением является проблема, возникающая во время выполнения программы.&nbsp;Исключение C ++ - это ответ на исключительное обстоятельство, которое возникает во время работы программы, например попытка деления на ноль.</p>
+
+<p>Исключения обеспечивают способ передачи контроля из одной части программы в другую.&nbsp;Обработка исключений C ++ построена на трех ключевых словах:<code>&nbsp;try, catch</code>&nbsp;и&nbsp;<code>throw</code>&nbsp;.</p>
+
+<ul>
+	<li><code>throw</code>&nbsp;- программа выдает исключение, когда возникает проблема.&nbsp;Это делается с использованием&nbsp;ключевого слова&nbsp;<code>throw</code>&nbsp;.</li>
+	<li><code>catch</code>&nbsp;- программа выхватывает исключение с обработчиком исключений в месте в программе, где вы хотите справиться с этой проблемой. Ключевое слово <code>catch</code>&nbsp;указывает на отлов исключения.</li>
+	<li><code>try&nbsp;</code>-&nbsp;блок&nbsp;<code>try</code>&nbsp;идентифицирует блок кода, для которого будут активированы определенные исключения.&nbsp;За ним следует один или несколько блоков catch.</li>
+</ul>
+
+<p>Предполагая, что блок вызовет исключение, метод поймает исключение, используя комбинацию&nbsp;ключевых слов<code>&nbsp;try</code>&nbsp;и&nbsp;<code>catch</code>&nbsp;.&nbsp;Блок <code>try/catch</code> помещается вокруг кода, который может генерировать исключение.&nbsp;Код внутри блока <code>try/catch</code> называется защищенным кодом и синтаксисом для использования<code> try/catch</code> следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>try {
+   // protected code
+} catch( ExceptionName e1 ) {
+   // catch block
+} catch( ExceptionName e2 ) {
+   // catch block
+} catch( ExceptionName eN ) {
+   // catch block
+}</code></pre>
+</blockquote>
+
+<p>Вы можете перечислить несколько&nbsp;операторов&nbsp;<code>catch</code><strong>,</strong>&nbsp;чтобы поймать разные типы исключений, если ваш&nbsp;блок&nbsp;<code>try</code>&nbsp;вызывает более одного исключения в разных ситуациях.</p>
+
+<h2>Выбросы исключений</h2>
+
+<p>Исключения могут быть выброшены в любом месте блока кода с использованием&nbsp;инструкции&nbsp;<code>throw</code>&nbsp;.&nbsp;Операнд оператора throw определяет тип исключения и может быть любым выражением, а тип результата выражения определяет тип созданного исключения.</p>
+
+<p>Ниже приведен пример исключения исключения при делении на нулевое условие:</p>
+
+<blockquote>
+<pre>
+<code>double division(int a, int b) {
+   if( b == 0 ) {
+      throw &quot;Division by zero condition!&quot;;
+   }
+   return (a/b);
+}</code></pre>
+</blockquote>
+
+<h2>Устранение исключений</h2>
+
+<p>Блок&nbsp;<code>catch</code>&nbsp;после блока&nbsp;<code>try</code>&nbsp;выхватывает любое исключение.&nbsp;Вы можете указать, какой тип исключения вы хотите поймать, и это определяется объявлением об исключении, которое появляется в круглых скобках, следующих за ключевым словом <code>catch</code>.</p>
+
+<blockquote>
+<pre>
+<code>try {
+   // protected code
+} catch( ExceptionName e ) {
+  // code to handle ExceptionName exception
+}</code></pre>
+</blockquote>
+
+<p>Выше кода поймает исключение типа&nbsp;<code>ExceptionName</code>&nbsp;.&nbsp;Если вы хотите указать, что блок catch должен обрабатывать любые исключения, которые выбрасываются в блок <code>try</code>, вы должны поместить эллипсис ... между круглыми скобками, включающими объявление исключения, следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>try {
+   // protected code
+} catch(...) {
+  // code to handle any exception
+}</code></pre>
+</blockquote>
+
+<p>Ниже приведен пример, который генерирует деление на ноль, и мы поймаем его в блоке <code>catch</code>.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+double division(int a, int b) {
+   if( b == 0 ) {
+      throw &quot;Division by zero condition!&quot;;
+   }
+   return (a/b);
+}
+
+int main () {
+   int x = 50;
+   int y = 0;
+   double z = 0;
+ 
+   try {
+      z = division(x, y);
+      cout &lt;&lt; z &lt;&lt; endl;
+   } catch (const char* msg) {
+     cerr &lt;&lt; msg &lt;&lt; endl;
+   }
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Поскольку мы создаем исключение типа&nbsp;<code>const char *&nbsp;</code>, поэтому, поймав это исключение, мы должны использовать <code>const char *</code> в блоке <code>catch</code>.&nbsp;Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Division by zero condition!</code></pre>
+</blockquote>
+
+<h2>Стандартные исключения C ++</h2>
+
+<p>C ++ предоставляет список стандартных исключений, определенных в&nbsp;<code>&lt;exception&gt;</code><strong>,</strong>&nbsp;которые мы можем использовать в наших программах.&nbsp;&nbsp;Вот небольшое описание каждого исключения, упомянутого в приведенной выше иерархии:</p>
+
+<table border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td><strong>std::exception</strong></td>
+			<td>Исключение и родительский класс всех стандартных исключений C ++.</td>
+		</tr>
+		<tr>
+			<td><strong>std::bad_alloc</strong></td>
+			<td>Это может быть брошено <strong>new</strong></td>
+		</tr>
+		<tr>
+			<td><strong>std::bad_cast</strong></td>
+			<td>Это может быть&nbsp;<strong>вызвано dynamic_cast</strong>&nbsp;.</td>
+		</tr>
+		<tr>
+			<td><strong>std::bad_exception</strong></td>
+			<td>Это полезное устройство для обработки неожиданных исключений в программе на C ++.</td>
+		</tr>
+		<tr>
+			<td><strong>std::bad_typeid</strong></td>
+			<td>Это может быть&nbsp;<strong>вызвано typeid</strong>&nbsp;.</td>
+		</tr>
+		<tr>
+			<td><strong>std::logic_error</strong></td>
+			<td>Исключение, которое теоретически можно обнаружить, прочитав код.</td>
+		</tr>
+		<tr>
+			<td><strong>std::domain_error</strong></td>
+			<td>Это исключение, возникшее при использовании математически недопустимого домена.</td>
+		</tr>
+		<tr>
+			<td><strong>std::invalid_argument</strong></td>
+			<td>Это вызвано неправильными аргументами.</td>
+		</tr>
+		<tr>
+			<td><strong>std::length_error</strong></td>
+			<td>Это генерируется при создании слишком большой std :: string.</td>
+		</tr>
+		<tr>
+			<td><strong>std::out_of_range</strong></td>
+			<td>Это может быть вызвано методом &laquo;at&raquo;, например, std :: vector и std :: bitset &lt;&gt; :: operator [] ().</td>
+		</tr>
+		<tr>
+			<td><strong>std::runtime_error</strong></td>
+			<td>Исключение, которое теоретически невозможно обнаружить, прочитав код.</td>
+		</tr>
+		<tr>
+			<td><strong>std::overflow_error</strong></td>
+			<td>Это бросается, если происходит математическое переполнение.</td>
+		</tr>
+		<tr>
+			<td><strong>std::range_error</strong></td>
+			<td>Это происходит, когда вы пытаетесь сохранить значение, выходящее за пределы допустимого диапазона.</td>
+		</tr>
+		<tr>
+			<td><strong>std::underflow_error</strong></td>
+			<td>Это бросается, если происходит математическое недополнение.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Определение новых исключений</h2>
+
+<p>Вы можете определить свои собственные исключения, наследуя и переопределяя&nbsp;функциональные возможности класса&nbsp;<strong>исключений</strong>&nbsp;.&nbsp;Ниже приведен пример, который показывает, как вы можете использовать класс <code>std ::</code> exception для реализации своего собственного исключения стандартным способом -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;exception&gt;
+using namespace std;
+
+struct MyException : public exception {
+   const char * what () const throw () {
+      return &quot;C++ Exception&quot;;
+   }
+};
+ 
+int main() {
+   try {
+      throw MyException();
+   } catch(MyException&amp; e) {
+      std::cout &lt;&lt; &quot;MyException caught&quot; &lt;&lt; std::endl;
+      std::cout &lt;&lt; e.what() &lt;&lt; std::endl;
+   } catch(std::exception&amp; e) {
+      //Other errors
+   }
+}</code></pre>
+</blockquote>
+
+<p>Это приведет к следующему результату -</p>
+
+<blockquote>
+<pre>
+<code>MyException caught
+C++ Exception</code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;<code>what()</code>&nbsp;- это открытый метод, предоставляемый классом исключений, и он был переопределен всеми дочерними классами исключений.&nbsp;Это возвращает причину исключения.</p>
+</div>

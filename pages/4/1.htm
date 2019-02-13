@@ -1,0 +1,194 @@
+﻿<h1>C ++ - Файлы и потоки</h1>
+
+<p>До сих пор мы использовали&nbsp;стандартную библиотеку&nbsp;<code>iostream</code>&nbsp;, которая предоставляет&nbsp;методы&nbsp;<code>cin</code>&nbsp;и&nbsp;<code>cout</code>&nbsp;для чтения со стандартного ввода и записи на стандартный вывод соответственно.</p>
+
+<p>Этот учебник научит вас читать и писать из файла.&nbsp;Для этого требуется другая стандартная библиотека C ++ с именем&nbsp;<code>fstream</code>&nbsp;, которая определяет три новых типа данных -</p>
+
+<blockquote>
+<p><code>ofstream</code></p>
+</blockquote>
+
+<p>Этот тип данных представляет поток выходных файлов и используется для создания файлов и для записи информации в файлы.</p>
+
+<blockquote>
+<p><code>ifstream</code></p>
+</blockquote>
+
+<p>Этот тип данных представляет поток входных файлов и используется для чтения информации из файлов.</p>
+
+<blockquote>
+<p><code>fstream</code></p>
+</blockquote>
+
+<p>Этот тип данных обычно представляет поток файлов и имеет возможности как потока, так и <code>ifstream</code>, что означает, что он может создавать файлы, записывать информацию в файлы и читать информацию из файлов.</p>
+
+<p>Для выполнения обработки файлов в C ++ файлы заголовков &lt;iostream&gt; и &lt;fstream&gt; должны быть включены в исходный файл C ++.</p>
+
+<h2>Открытие файла</h2>
+
+<p>Файл должен быть открыт, прежде чем вы сможете его прочитать или написать.&nbsp;Для открытия файла для записи может использоваться&nbsp;любой из&nbsp;<strong>объектов </strong><code>streamstream</code>&nbsp;или&nbsp;<code>fstream</code>.&nbsp;И объект ifstream используется для открытия файла только для чтения.</p>
+
+<p>Ниже приведен стандартный синтаксис функции open (), который является членом объектов <code>fstream, ifstream</code> и <code>ofstream</code>.</p>
+
+<blockquote>
+<pre>
+<code>void open(const char *filename, ios::openmode mode);</code></pre>
+</blockquote>
+
+<p>Здесь первый аргумент указывает имя и местоположение файла, который должен быть открыт, а второй аргумент функции&nbsp;<code>open()</code>&nbsp;определяет режим, в котором файл должен быть открыт.</p>
+
+<blockquote>
+<p><code>ios::app</code></p>
+</blockquote>
+
+<p>Добавить режим.&nbsp;Весь вывод в этот файл будет добавлен в конец.</p>
+
+<blockquote>
+<p><code>ios::ate</code></p>
+</blockquote>
+
+<p>Откройте файл для вывода и переместите элемент управления чтением/записью в конец файла.</p>
+
+<blockquote>
+<p><code>ios::in</code></p>
+</blockquote>
+
+<p>Откройте файл для чтения.</p>
+
+<blockquote>
+<p><code>ios::out</code></p>
+</blockquote>
+
+<p>Откройте файл для записи.</p>
+
+<blockquote>
+<p><code>ios::trunc</code></p>
+</blockquote>
+
+<p>Если файл уже существует, его содержимое будет усечено перед открытием файла. Вы можете объединить два или более из этих ценностей&nbsp;вместе.&nbsp;Например, если вы хотите открыть файл в режиме записи и хотите усечь его в случае, если он уже существует, следующим будет синтаксис -</p>
+
+<blockquote>
+<pre>
+<code>ofstream outfile;
+outfile.open(&quot;file.dat&quot;, ios::out | ios::trunc );</code></pre>
+</blockquote>
+
+<p>Аналогичным образом вы можете открыть файл для чтения и записи цели следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>fstream  afile;
+afile.open(&quot;file.dat&quot;, ios::out | ios::in );</code></pre>
+</blockquote>
+
+<h2>Закрытие файла</h2>
+
+<p>Когда программа C ++ завершает работу, она автоматически очищает все потоки, освобождает всю выделенную память и закрывает все открытые файлы.&nbsp;Но всегда хорошо, что программист должен закрыть все открытые файлы до завершения программы.</p>
+
+<p>Ниже приведен стандартный синтаксис функции <code>close()</code>, который является членом объектов fstream, ifstream и ofstream.</p>
+
+<blockquote>
+<pre>
+<code>void close();</code></pre>
+</blockquote>
+
+<h2>Запись в файл</h2>
+
+<p>Выполняя программирование на С ++, вы записываете информацию в файл из своей программы с помощью оператора вставки потока (&lt;&lt;) так же, как вы используете этот оператор для вывода информации на экран.&nbsp;Единственное отличие состоит в том, что&nbsp;вместо&nbsp;объекта&nbsp;<strong>cout</strong>&nbsp;вы используете объект&nbsp;<code>ofstream</code>&nbsp;или&nbsp;<code>fstream</code>&nbsp;.</p>
+
+<h2>Чтение из файла</h2>
+
+<p>Вы читаете информацию из файла в вашу программу, используя оператор извлечения потока (&gt;&gt;), так же, как вы используете этот оператор для ввода информации с клавиатуры.&nbsp;Единственное различие заключается в том, что&nbsp;вместо&nbsp;объекта&nbsp;<strong>cin</strong>&nbsp;вы используете объект&nbsp;<code>ifstream</code>&nbsp;или&nbsp;<code>fstream</code>&nbsp;.</p>
+
+<h2>Пример чтения и записи</h2>
+
+<p>Ниже приведена программа на C ++, которая открывает файл в режиме чтения и записи.&nbsp;После записи информации, введенной пользователем в файл с именем <code>afile.dat</code>, программа считывает информацию из файла и выводит ее на экран -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+ 
+int main () {
+   char data[100];
+
+   // open a file in write mode.
+   ofstream outfile;
+   outfile.open(&quot;afile.dat&quot;);
+
+   cout &lt;&lt; &quot;Writing to the file&quot; &lt;&lt; endl;
+   cout &lt;&lt; &quot;Enter your name: &quot;; 
+   cin.getline(data, 100);
+
+   // write inputted data into the file.
+   outfile &lt;&lt; data &lt;&lt; endl;
+
+   cout &lt;&lt; &quot;Enter your age: &quot;; 
+   cin &gt;&gt; data;
+   cin.ignore();
+   
+   // again write inputted data into the file.
+   outfile &lt;&lt; data &lt;&lt; endl;
+
+   // close the opened file.
+   outfile.close();
+
+   // open a file in read mode.
+   ifstream infile; 
+   infile.open(&quot;afile.dat&quot;); 
+ 
+   cout &lt;&lt; &quot;Reading from the file&quot; &lt;&lt; endl; 
+   infile &gt;&gt; data; 
+
+   // write the data at the screen.
+   cout &lt;&lt; data &lt;&lt; endl;
+   
+   // again read the data from the file and display it.
+   infile &gt;&gt; data; 
+   cout &lt;&lt; data &lt;&lt; endl; 
+
+   // close the opened file.
+   infile.close();
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда вышеприведенный код скомпилирован и исполнен, он создает следующий образец ввода и вывода -</p>
+
+<blockquote>
+<pre>
+<code>$./a.out
+Writing to the file
+Enter your name: Zara
+Enter your age: 9
+Reading from the file
+Zara
+9</code></pre>
+</blockquote>
+
+<p>В приведенных выше примерах используются дополнительные функции от объекта cin, например функция <code>getline ()</code>, чтобы читать строку извне и игнорировать (), чтобы игнорировать лишние символы, оставленные предыдущим оператором чтения.</p>
+
+<h2>Указатели позиции файла</h2>
+
+<p>Оба&nbsp;<code>IStream</code>&nbsp;и&nbsp;<code>ostream</code>&nbsp;обеспечивают функции члена для изменения положения указателя файла позиция.&nbsp;Этими функциями-членами являются&nbsp;<code>seekg&nbsp;(&laquo;seek get&raquo;) </code>для<code>&nbsp;istream</code>&nbsp;и&nbsp;<code>seekp&nbsp;(&laquo;seek put&raquo;)</code> для <code>ostream</code>.</p>
+
+<p>Аргумент seekg и seekp обычно является длинным целым числом.&nbsp;Второй аргумент может быть указан для указания направления поиска.&nbsp;Направление поиска может быть&nbsp;<code>ios :: beg</code>&nbsp;(по умолчанию) для позиционирования относительно начала потока,&nbsp;<code>ios :: cur</code>&nbsp;для позиционирования относительно текущей позиции в потоке или&nbsp;<strong>ios :: end</strong>для позиционирования относительно конца поток.</p>
+
+<p>Указатель позиции файла представляет собой целочисленное значение, определяющее местоположение в файле как количество байтов из исходного местоположения файла.&nbsp;Некоторые примеры позиционирования указателя &quot;<code>get&quot;&nbsp;file-position</code> -</p>
+
+<blockquote>
+<pre>
+<code>// position to the nth byte of fileObject (assumes ios::beg)
+fileObject.seekg( n );
+
+// position n bytes forward in fileObject
+fileObject.seekg( n, ios::cur );
+
+// position n bytes back from end of fileObject
+fileObject.seekg( n, ios::end );
+
+// position at end of fileObject
+fileObject.seekg( 0, ios::end );</code></pre>
+</blockquote>

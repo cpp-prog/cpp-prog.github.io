@@ -1,0 +1,137 @@
+﻿<h1>C ++ - Полиморфизм</h1>
+
+<p>Слово&nbsp;<strong>полиморфизм</strong>&nbsp;означает наличие многих форм.&nbsp;Как правило, полиморфизм возникает, когда существует иерархия классов, и они связаны наследованием.</p>
+
+<p>Полиморфизм C ++ означает, что вызов функции-члена вызовет выполнение другой функции в зависимости от типа объекта, который вызывает эту функцию.</p>
+
+<p>Рассмотрим следующий пример, когда базовый класс был получен другими двумя классами:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt; 
+using namespace std;
+ 
+class Shape {
+   protected:
+      int width, height;
+      
+   public:
+      Shape( int a = 0, int b = 0){
+         width = a;
+         height = b;
+      }
+      int area() {
+         cout &lt;&lt; &quot;Parent class area :&quot; &lt;&lt;endl;
+         return 0;
+      }
+};
+class Rectangle: public Shape {
+   public:
+      Rectangle( int a = 0, int b = 0):Shape(a, b) { }
+      
+      int area () { 
+         cout &lt;&lt; &quot;Rectangle class area :&quot; &lt;&lt;endl;
+         return (width * height); 
+      }
+};
+
+class Triangle: public Shape {
+   public:
+      Triangle( int a = 0, int b = 0):Shape(a, b) { }
+      
+      int area () { 
+         cout &lt;&lt; &quot;Triangle class area :&quot; &lt;&lt;endl;
+         return (width * height / 2); 
+      }
+};
+
+// Main function for the program
+int main() {
+   Shape *shape;
+   Rectangle rec(10,7);
+   Triangle  tri(10,5);
+
+   // store the address of Rectangle
+   shape = &amp;rec;
+   
+   // call rectangle area.
+   shape-&gt;area();
+
+   // store the address of Triangle
+   shape = &amp;tri;
+   
+   // call triangle area.
+   shape-&gt;area();
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Parent class area :
+Parent class area :</code></pre>
+</blockquote>
+
+<p>Причиной неправильного вывода является то, что вызов функции <code>area() </code>устанавливается один раз компилятором как версия, определенная в базовом классе.&nbsp;Это называется&nbsp;<strong>статическим разрешением</strong>&nbsp;вызова функции или&nbsp;<strong>статической привязкой</strong>&nbsp;- вызов функции фиксируется перед выполнением программы.&nbsp;Это также иногда называют&nbsp;<strong>ранним связыванием,</strong>&nbsp;потому что функция <code>area()</code> задается во время компиляции программы.</p>
+
+<p>Но теперь давайте сделаем небольшую модификацию в нашей программе и предваряем объявление <code>area()</code> в классе <code>Shape</code> ключевым словом&nbsp;<code>virtual</code>,&nbsp;чтобы оно выглядело следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>class Shape {
+   protected:
+      int width, height;
+      
+   public:
+      Shape( int a = 0, int b = 0) {
+         width = a;
+         height = b;
+      }
+      virtual int area() {
+         cout &lt;&lt; &quot;Parent class area :&quot; &lt;&lt;endl;
+         return 0;
+      }
+};</code></pre>
+</blockquote>
+
+<p>После этой небольшой модификации, когда предыдущий примерный код скомпилирован и выполнен, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Rectangle class area
+Triangle class area</code></pre>
+</blockquote>
+
+<p>На этот раз компилятор просматривает содержимое указателя вместо его типа.&nbsp;Следовательно, поскольку адреса объектов классов tri и rec хранятся в * форме, вызывается соответствующая функция <code>area()</code>.</p>
+
+<p>Как вы можете видеть, каждый из дочерних классов имеет отдельную реализацию для <code>area()</code>.&nbsp;Вот как&nbsp;обычно используется&nbsp;<strong>полиморфизм</strong>&nbsp;.&nbsp;У вас разные классы с функцией с тем же именем и даже с теми же параметрами, но с разными реализациями.</p>
+
+<h2>Виртуальная функция</h2>
+
+<p><strong>Виртуальная</strong>&nbsp;функция является функцией в базовом классе ,&nbsp;который объявлен с&nbsp;помощью ключевого слова&nbsp;<strong>виртуальной</strong>&nbsp;.&nbsp;Определяя в базовом классе виртуальную функцию с другой версией в производном классе, сигнализирует компилятору, что мы не хотим статической привязки для этой функции.</p>
+
+<p>Мы хотим, чтобы выбор функции, вызываемой в любой заданной точке программы, основывался на виде объекта, для которого он вызван.&nbsp;Такая операция называется&nbsp;<strong>динамической связью</strong>&nbsp;или&nbsp;<strong>поздним связыванием</strong>&nbsp;.</p>
+
+<h2>Чистые виртуальные функции</h2>
+
+<p>Возможно, вы хотите включить виртуальную функцию в базовый класс, чтобы ее можно было переопределить в производном классе в соответствии с объектами этого класса, но нет никакого содержательного определения, которое вы могли бы дать для функции в базовом классе.&nbsp;Мы можем изменить область виртуальных функций в базовом классе на следующее:</p>
+
+<blockquote>
+<pre>
+<code>class Shape {
+   protected:
+      int width, height;
+
+   public:
+      Shape(int a = 0, int b = 0) {
+         width = a;
+         height = b;
+      }
+      
+      // pure virtual function
+      virtual int area() = 0;
+};</code></pre>
+</blockquote>

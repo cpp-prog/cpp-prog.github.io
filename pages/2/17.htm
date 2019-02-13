@@ -1,0 +1,167 @@
+﻿<h1>C ++ - Строки</h1>
+
+<p>C ++ предоставляет следующие два типа строковых представлений:</p>
+
+<ul>
+	<li>Строка символов в стиле C.</li>
+	<li>Тип класса string, введенный со стандартным C ++.</li>
+</ul>
+
+<h2>Строка символов C-Style</h2>
+
+<p>Строка символов в стиле C начинается с языка C и продолжает поддерживаться внутри C ++.&nbsp;Эта строка на самом деле представляет собой одномерный массив символов, который заканчивается&nbsp;<strong>нулевым&nbsp;</strong>символом &#39;\ 0&#39;.&nbsp;Таким образом, строка с нулевым завершением содержит символы, которые содержат строку, за которой следует&nbsp;<strong>нуль</strong>&nbsp;.</p>
+
+<p>Следующее объявление и инициализация создают строку, состоящую из слова &laquo;Hello&raquo;.&nbsp;Чтобы удерживать нулевой символ в конце массива, размер массива символов, содержащий строку, больше, чем количество символов в слове &laquo;Hello&raquo;.</p>
+
+<blockquote>
+<pre>
+<code>char greeting[6] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;};</code></pre>
+</blockquote>
+
+<p>Если вы следуете правилу инициализации массива, вы можете написать вышеприведенный оператор следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>char greeting[] = &quot;Hello&quot;;</code></pre>
+</blockquote>
+
+<p>На самом деле, вы не ставите нулевой символ в конце строковой константы.&nbsp;Компилятор C ++ автоматически помещает &#39;\ 0&#39; в конец строки, когда он инициализирует массив.&nbsp;Попробуем напечатать вышеупомянутую строку -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+
+using namespace std;
+
+int main () {
+
+   char greeting[6] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;};
+
+   cout &lt;&lt; &quot;Greeting message: &quot;;
+   cout &lt;&lt; greeting &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Greeting message: Hello</code></pre>
+</blockquote>
+
+<p>C ++ поддерживает широкий спектр функций, которые управляют строками, завершающими нуль -</p>
+
+<table border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td><strong>strcpy (s1, s2);</strong></td>
+			<td>Копирует строку s2 в строку s1.</td>
+		</tr>
+		<tr>
+			<td><strong>strcat (s1, s2);</strong></td>
+			<td>Объединяет строку s2 в конец строки s1.</td>
+		</tr>
+		<tr>
+			<td><strong>StrLen (S1);</strong></td>
+			<td>Возвращает длину строки s1.</td>
+		</tr>
+		<tr>
+			<td><strong>strcmp (s1, s2);</strong></td>
+			<td>Возвращает 0, если s1 и s2 одинаковы;&nbsp;меньше 0, если s1 &lt;s2;&nbsp;больше 0, если s1&gt; s2.</td>
+		</tr>
+		<tr>
+			<td><strong>strchr (s1, ch);</strong></td>
+			<td>Возвращает указатель на первое вхождение символа ch в строке s1.</td>
+		</tr>
+		<tr>
+			<td><strong>strstr (s1, s2);</strong></td>
+			<td>Возвращает указатель на первое вхождение строки s2 в строке s1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>В следующем примере используется несколько из вышеупомянутых функций -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+int main () {
+
+   char str1[10] = &quot;Hello&quot;;
+   char str2[10] = &quot;World&quot;;
+   char str3[10];
+   int  len ;
+
+   // copy str1 into str3
+   strcpy( str3, str1);
+   cout &lt;&lt; &quot;strcpy( str3, str1) : &quot; &lt;&lt; str3 &lt;&lt; endl;
+
+   // concatenates str1 and str2
+   strcat( str1, str2);
+   cout &lt;&lt; &quot;strcat( str1, str2): &quot; &lt;&lt; str1 &lt;&lt; endl;
+
+   // total lenghth of str1 after concatenation
+   len = strlen(str1);
+   cout &lt;&lt; &quot;strlen(str1) : &quot; &lt;&lt; len &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код скомпилирован и исполнен, он производит результат следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>strcpy (str3, str1): Привет
+strcat (str1, str2): HelloWorld
+strlen (str1): 10</code></pre>
+</blockquote>
+
+<h2>Класс String в C ++</h2>
+
+<p>Стандартная библиотека C ++ предоставляет&nbsp;тип класса&nbsp;<strong>строк,</strong>&nbsp;который поддерживает все описанные выше операции, а также значительно большую функциональность.&nbsp;Давайте проверим следующий пример -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+int main () {
+
+   string str1 = &quot;Hello&quot;;
+   string str2 = &quot;World&quot;;
+   string str3;
+   int  len ;
+
+   // copy str1 into str3
+   str3 = str1;
+   cout &lt;&lt; &quot;str3 : &quot; &lt;&lt; str3 &lt;&lt; endl;
+
+   // concatenates str1 and str2
+   str3 = str1 + str2;
+   cout &lt;&lt; &quot;str1 + str2 : &quot; &lt;&lt; str3 &lt;&lt; endl;
+
+   // total length of str3 after concatenation
+   len = str3.size();
+   cout &lt;&lt; &quot;str3.size() :  &quot; &lt;&lt; len &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код скомпилирован и исполнен, он производит результат следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>str3 : Hello
+str1 + str2 : HelloWorld
+str3.size() :  10</code></pre>
+</blockquote>

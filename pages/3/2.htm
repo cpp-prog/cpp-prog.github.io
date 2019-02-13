@@ -1,0 +1,231 @@
+﻿<h1>C ++ - Наследование</h1>
+
+<p>Одним из наиболее важных понятий объектно-ориентированного программирования является наследование.&nbsp;Наследование позволяет нам определить класс в терминах другого класса, что упрощает создание и обслуживание приложения.&nbsp;Это также дает возможность повторно использовать функциональность кода и быстрое время выполнения.</p>
+
+<p>При создании класса вместо написания совершенно новых членов данных и функций-членов программист может обозначить, что новый класс должен наследовать членов существующего класса.&nbsp;Этот существующий класс называется&nbsp;<strong>базовым</strong>&nbsp;классом, а новый класс называется&nbsp;<strong>производным</strong>&nbsp;.</p>
+
+<p>Идея наследования реализует&nbsp;<strong>это</strong>&nbsp;отношения.&nbsp;Например, млекопитающее животное IS-A, млекопитающее собаки IS-A, следовательно, животное IS-A собаки и так далее.</p>
+
+<h2>Базовые и производные классы</h2>
+
+<p>Класс может быть получен из более чем одного класса, что означает, что он может наследовать данные и функции из нескольких базовых классов.&nbsp;Чтобы определить производный класс, мы используем список производных классов, чтобы указать базовый класс (es).&nbsp;Список дериваций классов называет один или несколько базовых классов и имеет форму -</p>
+
+<blockquote>
+<pre>
+<code>class derived-class: access-specifier base-class</code></pre>
+</blockquote>
+
+<p>Если спецификатор доступа является одним из&nbsp;<strong>общедоступных, защищенных</strong>&nbsp;или&nbsp;<strong>закрытых</strong>&nbsp;, а базовым классом является имя ранее определенного класса.&nbsp;Если спецификатор доступа не используется, он по умолчанию является закрытым.</p>
+
+<p>Рассмотрим базовый класс&nbsp;<code>Shape</code>&nbsp;и его производный класс&nbsp;<code>Rectangle</code><strong>&nbsp;</strong>следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+ 
+using namespace std;
+
+// Base class
+class Shape {
+   public:
+      void setWidth(int w) {
+         width = w;
+      }
+      void setHeight(int h) {
+         height = h;
+      }
+      
+   protected:
+      int width;
+      int height;
+};
+
+// Derived class
+class Rectangle: public Shape {
+   public:
+      int getArea() { 
+         return (width * height); 
+      }
+};
+
+int main(void) {
+   Rectangle Rect;
+ 
+   Rect.setWidth(5);
+   Rect.setHeight(7);
+
+   // Print the area of the object.
+   cout &lt;&lt; &quot;Total area: &quot; &lt;&lt; Rect.getArea() &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Total area: 35</code></pre>
+</blockquote>
+
+<h2>Контроль доступа и наследование</h2>
+
+<p>Производный класс может получить доступ ко всем не-частным членам своего базового класса.&nbsp;Таким образом, члены базового класса, которые не должны быть доступны для функций-членов производных классов, должны быть объявлены частными в базовом классе.</p>
+
+<p>Мы можем суммировать различные типы доступа в зависимости от того, кто может получить к ним доступ следующим образом:</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td>
+			<p><strong>Access</strong></p>
+			</td>
+			<td>
+			<p><strong>public</strong></p>
+			</td>
+			<td>
+			<p><strong>protected</strong></p>
+			</td>
+			<td>
+			<p><strong>private</strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Same class</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Derived classes</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+			<td>
+			<p>нет</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Outside classes</p>
+			</td>
+			<td>
+			<p>да</p>
+			</td>
+			<td>
+			<p>нет</p>
+			</td>
+			<td>
+			<p>нет</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Производный класс наследует все методы базового класса со следующими исключениями:</p>
+
+<ul>
+	<li>Конструкторы, деструкторы и конструкторы копирования базового класса.</li>
+	<li>Перегруженные операторы базового класса.</li>
+	<li>Друг-функции базового класса.</li>
+</ul>
+
+<h2>Тип наследования</h2>
+
+<p>При выводе класса из базового класса базовый класс может наследоваться через&nbsp;<strong>общедоступное, защищенное</strong>&nbsp;или&nbsp;<strong>частное</strong>&nbsp;наследование.&nbsp;Тип наследования определяется спецификатором доступа, как описано выше.</p>
+
+<p>Едва ли мы использовать&nbsp;<strong>защищенный</strong>&nbsp;или&nbsp;<strong>частное</strong>&nbsp;наследование, но&nbsp;<strong>общественное</strong>&nbsp;наследование обычно используется.&nbsp;При использовании другого типа наследования применяются следующие правила:</p>
+
+<ul>
+	<li><strong>Public Inheritance</strong>&nbsp;- При выводе класса из&nbsp;<strong>общедоступного</strong>базового класса&nbsp;<strong>публичные</strong>&nbsp;члены базового класса становятся&nbsp;<strong>общедоступными</strong>&nbsp;членами производного класса, а&nbsp;<strong>защищенные</strong>члены базового класса становятся&nbsp;<strong>защищенными</strong>&nbsp;членами производного класса.&nbsp;<strong>Частные</strong>&nbsp;члены&nbsp;базового класса&nbsp;никогда не доступны непосредственно из производного класса, но могут быть доступны через вызовы для&nbsp;<strong>публичных</strong>&nbsp;и&nbsp;<strong>защищенных</strong>&nbsp;членов базового класса.</li>
+	<li><strong>Protected legacy.</strong>&nbsp;При получении из&nbsp;<strong>защищенного</strong>базового класса&nbsp;<strong>общедоступные</strong>&nbsp;и&nbsp;<strong>защищенные</strong>&nbsp;члены базового класса становятся&nbsp;<strong>защищенными</strong>&nbsp;членами производного класса.</li>
+	<li><strong>Private Inheritance</strong>&nbsp;- При получении из&nbsp;<strong>частного</strong>&nbsp;базового класса&nbsp;<strong>общедоступные</strong>&nbsp;и&nbsp;<strong>защищенные</strong>&nbsp;члены базового класса становятся&nbsp;<strong>частными</strong>&nbsp;членами производного класса.</li>
+</ul>
+
+<h2>Многократное наследование</h2>
+
+<p>Класс C ++ может наследовать членов из более чем одного класса, и вот расширенный синтаксис -</p>
+
+<blockquote>
+<pre>
+<code>class derived-class: access baseA, access baseB....</code></pre>
+</blockquote>
+
+<p>Если доступ является одним из&nbsp;<strong>общедоступных, защищенных</strong>&nbsp;или&nbsp;<strong>закрытых</strong>&nbsp;и будет предоставлен для каждого базового класса, они будут разделены запятой, как показано выше.&nbsp;Попробуем следующий пример -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+ 
+using namespace std;
+
+// Base class Shape
+class Shape {
+   public:
+      void setWidth(int w) {
+         width = w;
+      }
+      void setHeight(int h) {
+         height = h;
+      }
+      
+   protected:
+      int width;
+      int height;
+};
+
+// Base class PaintCost
+class PaintCost {
+   public:
+      int getCost(int area) {
+         return area * 70;
+      }
+};
+
+// Derived class
+class Rectangle: public Shape, public PaintCost {
+   public:
+      int getArea() {
+         return (width * height); 
+      }
+};
+
+int main(void) {
+   Rectangle Rect;
+   int area;
+ 
+   Rect.setWidth(5);
+   Rect.setHeight(7);
+
+   area = Rect.getArea();
+   
+   // Print the area of the object.
+   cout &lt;&lt; &quot;Total area: &quot; &lt;&lt; Rect.getArea() &lt;&lt; endl;
+
+   // Print the total cost of painting
+   cout &lt;&lt; &quot;Total paint cost: $&quot; &lt;&lt; Rect.getCost(area) &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Total area: 35
+Total paint cost: $2450</code></pre>
+</blockquote>

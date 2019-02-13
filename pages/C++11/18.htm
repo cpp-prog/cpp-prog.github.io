@@ -1,0 +1,96 @@
+﻿<h1>Шаблоны с переменным числом аргументов</h1>
+
+<p>До появления C++11 шаблоны (классов или функций) могли принимать только заданное число аргументов, определяемых при первоначальном объявлении шаблона. C++11 позволяет определять шаблоны с переменным числом аргументов любого типа.</p>
+
+<pre>
+<code>template&lt;typename... Values&gt; class tuple;</code>
+</pre>
+
+<p>Например, шаблонный класс <em>tuple</em> принимает любое количество имён типов в качестве параметров шаблона:</p>
+
+<pre>
+<code>class tuple&lt;int, std::vector&lt;int&gt;, std::map&lt;std::string, std::vector&lt;int&gt;&gt;&gt; some_instance_name;</code>
+</pre>
+
+<p>Аргументы могут и отсутствовать, так что вариант <code>class tuple&lt;&gt; some_instance_name</code> также будет работать.</p>
+
+<p>Чтобы запретить инстанцирование шаблона без аргументов, можно использовать следующее определение:</p>
+
+<pre>
+<code>template&lt;typename First, typename... Rest&gt; class tuple;</code>
+</pre>
+
+<p>Шаблоны с переменным числом аргументов также применимы к функциям, что позволяет использовать их в типобезопасных вариантах функций с переменным числом аргументов (таких как printf), а также для обработки нетривиальных объектов.</p>
+
+<pre>
+<code>template&lt;typename... Params&gt; void printf(const std::string &amp;str_format, Params... parameters);</code>
+</pre>
+
+<p>Оператор ... играет здесь две роли. Слева от Params оператор объявляет о необходимости упаковать параметры. Использование запакованных параметров позволяет связать 0 или более аргументов с шаблоном. Запакованные параметры могут использоваться не только для передачи имён типов. Оператор ... справа в свою очередь осуществляет распаковку параметров в отдельные аргументы (см. <code>args...</code> в теле функции в примере ниже).</p>
+
+<p>Также возможно рекурсивное использование шаблонов с переменным числом аргументов. Одним из примеров может быть типобезопасная замена <em>printf</em>:</p>
+
+<pre>
+<code>void printf(const char *s)
+{
+    while (*s) {
+        if (*s == &#39;%&#39; &amp;&amp; *(++s) != &#39;%&#39;)
+            throw std::runtime_error(&quot;invalid format string: missing arguments&quot;);
+        std::cout &lt;&lt; *s++;
+    }
+}
+
+template&lt;typename T, typename... Args&gt;
+void printf(const char *s, T value, Args... args)
+{
+    while (*s) {
+        if (*s == &#39;%&#39; &amp;&amp; *(++s) != &#39;%&#39;) {
+            std::cout &lt;&lt; value;
+            ++s;
+            printf(s, args...); // продолжаем обработку аргументов, даже если *s == 0
+            return;
+        }
+        std::cout &lt;&lt; *s++;
+    }
+    throw std::logic_error(&quot;extra arguments provided to printf&quot;);
+}
+</code></pre>
+
+<p>Этот шаблон является рекурсивным. Обратите внимание, что функция printf вызывает результаты инстанциирования самой себя или базовую функцию printf в случае, если <em>args...</em> пустой.</p>
+
+<p>Нет простого механизма обхода параметров в шаблоне с переменным числом аргументов. Несмотря на это, использование оператора распаковки аргументов позволяет обойти эту проблему.</p>
+
+<p>Например, класс может быть определён следующим образом:</p>
+
+<pre>
+<code>template &lt;typename... BaseClasses&gt; class ClassName : public BaseClasses... {
+public:
+
+    ClassName (BaseClasses&amp;&amp;... base_classes) : BaseClasses(base_classes)... {}
+};
+</code></pre>
+
+<p>Оператор распаковки продублирует все типы родительских классов <code>ClassName</code> таким образом, что класс будет наследован от всех типов, указанных в шаблонных параметрах. Кроме того, конструктор должен принимать ссылку на все базовые классы чтобы осуществлялась инициализация каждого базового класса-родителя <code>ClassName</code>.</p>
+
+<p>Параметры шаблона могут быть перенаправлены. В сочетании с ссылками на rvalue (см. выше) можно выполнить перенаправление:</p>
+
+<pre>
+<code>template&lt;typename TypeToConstruct&gt; struct SharedPtrAllocator {
+
+    template&lt;typename ...Args&gt; std::shared_ptr&lt;TypeToConstruct&gt; construct_with_shared_ptr(Args&amp;&amp;... params) {
+        return std::shared_ptr&lt;TypeToConstruct&gt;(new TypeToConstruct(std::forward&lt;Args&gt;(params)...));
+    };
+};
+</code></pre>
+
+<p>Данный код осуществляет распаковку списка аргументов в конструктор TypeToConstruct. Синтакс <code>std::forward&lt;Args&gt;(params)</code> позволяет абсолютно прозрачно перенаправить аргументы к конструктору, вне зависимости от их rvalue-характера. Функция автоматически оборачивает указатели в <code>std::shared_ptr</code> для обеспечения защиты от утечек памяти.</p>
+
+<p>Также есть возможность определить число упакованных аргументов следующим образом:</p>
+
+<pre>
+<code>template&lt;typename ...Args&gt; struct SomeStruct {
+    static const int size = sizeof...(Args);
+};
+</code></pre>
+
+<p>Здесь <code>SomeStruct&lt;Type1, Type2&gt;::size</code> равен 2, а <code>SomeStruct&lt;&gt;::size</code> равен 0.</p>

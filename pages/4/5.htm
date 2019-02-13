@@ -1,0 +1,160 @@
+﻿<h1>С++ - Шаблоны</h1>
+
+<p>Шаблоны являются основой общего программирования, которое предполагает запись кода таким образом, который не зависит от какого-либо конкретного типа.</p>
+
+<p>Шаблон представляет собой схему или формулу для создания общего класса или функции.&nbsp;Библиотечные контейнеры, такие как итераторы и алгоритмы, являются примерами общего программирования и разработаны с использованием концепции шаблонов.</p>
+
+<p>Существует одно определение каждого контейнера, такого как&nbsp;<code>vector</code>, но мы можем определить множество различных видов векторов, например<code>&nbsp;vector &lt;int&gt;</code>&nbsp;или&nbsp;<code>vector &lt;string&gt;</code>&nbsp;.</p>
+
+<p>Вы можете использовать шаблоны для определения функций, а также классов, давайте посмотрим, как они работают.</p>
+
+<h2>Шаблон функции</h2>
+
+<p>Здесь показана общая форма определения функции шаблона -</p>
+
+<blockquote>
+<pre>
+<code>template &lt;class type&gt; ret-type func-name(parameter list) {
+   // body of function
+} </code></pre>
+</blockquote>
+
+<p>Здесь тип - это имя-заполнитель для типа данных, используемого функцией.&nbsp;Это имя может использоваться в определении функции.</p>
+
+<p>Ниже приведен пример шаблона функции, который возвращает максимум два значения -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+inline T const&amp; Max (T const&amp; a, T const&amp; b) { 
+   return a &lt; b ? b:a; 
+}
+
+int main () {
+   int i = 39;
+   int j = 20;
+   cout &lt;&lt; &quot;Max(i, j): &quot; &lt;&lt; Max(i, j) &lt;&lt; endl; 
+
+   double f1 = 13.5; 
+   double f2 = 20.7; 
+   cout &lt;&lt; &quot;Max(f1, f2): &quot; &lt;&lt; Max(f1, f2) &lt;&lt; endl; 
+
+   string s1 = &quot;Hello&quot;; 
+   string s2 = &quot;World&quot;; 
+   cout &lt;&lt; &quot;Max(s1, s2): &quot; &lt;&lt; Max(s1, s2) &lt;&lt; endl; 
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Max(i, j): 39
+Max(f1, f2): 20.7
+Max(s1, s2): World</code></pre>
+</blockquote>
+
+<h2>Шаблон класса</h2>
+
+<p>Так же, как мы можем определить шаблоны функций, мы также можем определить шаблоны классов.&nbsp;Здесь показан общий вид декларации общего класса -</p>
+
+<blockquote>
+<pre>
+<code>template &lt;class type&gt; class class-name {
+   .
+   .
+   .
+}</code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;<code>type</code>&nbsp;- это имя типа заполнителя, которое будет указано при создании экземпляра класса.&nbsp;Вы можете определить более одного типа данных общего типа, используя список, разделенный запятыми.</p>
+
+<p>Ниже приведен пример определения класса <code>Stack &lt;&gt;</code> и реализации универсальных методов для нажатия и выталкивания элементов из стека:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cstdlib&gt;
+#include &lt;string&gt;
+#include &lt;stdexcept&gt;
+
+using namespace std;
+
+template &lt;class T&gt;
+class Stack { 
+   private: 
+      vector&lt;T&gt; elems;    // elements 
+
+   public: 
+      void push(T const&amp;);  // push element 
+      void pop();               // pop element 
+      T top() const;            // return top element 
+      
+      bool empty() const {      // return true if empty.
+         return elems.empty(); 
+      } 
+}; 
+
+template &lt;class T&gt;
+void Stack&lt;T&gt;::push (T const&amp; elem) { 
+   // append copy of passed element 
+   elems.push_back(elem);    
+} 
+
+template &lt;class T&gt;
+void Stack&lt;T&gt;::pop () { 
+   if (elems.empty()) { 
+      throw out_of_range(&quot;Stack&lt;&gt;::pop(): empty stack&quot;); 
+   }
+   
+   // remove last element 
+   elems.pop_back();         
+} 
+
+template &lt;class T&gt;
+T Stack&lt;T&gt;::top () const { 
+   if (elems.empty()) { 
+      throw out_of_range(&quot;Stack&lt;&gt;::top(): empty stack&quot;); 
+   }
+   
+   // return copy of last element 
+   return elems.back();      
+} 
+
+int main() { 
+   try {
+      Stack&lt;int&gt;         intStack;  // stack of ints 
+      Stack&lt;string&gt; stringStack;    // stack of strings 
+
+      // manipulate int stack 
+      intStack.push(7); 
+      cout &lt;&lt; intStack.top() &lt;&lt;endl; 
+
+      // manipulate string stack 
+      stringStack.push(&quot;hello&quot;); 
+      cout &lt;&lt; stringStack.top() &lt;&lt; std::endl; 
+      stringStack.pop(); 
+      stringStack.pop(); 
+   } catch (exception const&amp; ex) { 
+      cerr &lt;&lt; &quot;Exception: &quot; &lt;&lt; ex.what() &lt;&lt;endl; 
+      return -1;
+   } 
+} </code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>7
+hello
+Exception: Stack&lt;&gt;::pop(): empty stack</code></pre>
+</blockquote>

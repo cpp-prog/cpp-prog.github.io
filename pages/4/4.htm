@@ -1,0 +1,209 @@
+﻿<h1>C ++ - Пространства имен</h1>
+
+<p>Рассмотрим ситуацию, когда у нас есть два человека с тем же именем, Зара, в том же классе.&nbsp;Всякий раз, когда нам нужно различать их, мы должны будем использовать некоторую дополнительную информацию вместе с их именем, например, либо в области, если они живут в разных районах, либо имя матери или отца и т. д.</p>
+
+<p>Такая же ситуация может возникнуть в ваших приложениях на C ++.&nbsp;Например, вы можете написать код, который имеет функцию xyz (), и есть еще одна доступная библиотека, которая также имеет ту же функцию <code>xyz()</code>.&nbsp;Теперь у компилятора нет возможности узнать, какую версию функции <code>xyz()</code> вы ссылаетесь на свой код.</p>
+
+<p>Пространство&nbsp;имен&nbsp;предназначено для преодоления этой трудности и используется как дополнительная информация для дифференциации подобных функций, классов, переменных и т. д. С тем же именем, доступным в разных библиотеках.&nbsp;Используя пространство имен, вы можете определить контекст, в котором определены имена.&nbsp;По сути, пространство имен определяет область видимости.</p>
+
+<h2>Определение пространства имен</h2>
+
+<p>Определение пространства имен начинается с&nbsp;<strong>пространства имен&nbsp;</strong>ключевых слов,&nbsp;за которым следует имя пространства имен следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>namespace namespace_name {
+   // code declarations
+}</code></pre>
+</blockquote>
+
+<p>Чтобы вызвать версию или функцию, поддерживающую пространство имен, добавьте (: :) имя пространства имен следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>name::code;  // code could be variable or function.</code></pre>
+</blockquote>
+
+<p>Давайте посмотрим, как пространство имен охватывает объекты, включая переменные и функции:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+// first name space
+namespace first_space {
+   void func() {
+      cout &lt;&lt; &quot;Inside first_space&quot; &lt;&lt; endl;
+   }
+}
+
+// second name space
+namespace second_space {
+   void func() {
+      cout &lt;&lt; &quot;Inside second_space&quot; &lt;&lt; endl;
+   }
+}
+
+int main () {
+   // Calls function from first name space.
+   first_space::func();
+   
+   // Calls function from second name space.
+   second_space::func(); 
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Inside first_space
+Inside second_space</code></pre>
+</blockquote>
+
+<h2>Директива по использованию</h2>
+
+<p>Вы также можете избежать добавления пространств имен с&nbsp;помощью&nbsp;директивы&nbsp;<code>namespace</code>&nbsp;.&nbsp;Эта директива сообщает компилятору, что последующий код использует имена в указанном пространстве имен.&nbsp;Таким образом, пространство имен подразумевается для следующего кода -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+// first name space
+namespace first_space {
+   void func() {
+      cout &lt;&lt; &quot;Inside first_space&quot; &lt;&lt; endl;
+   }
+}
+
+// second name space
+namespace second_space {
+   void func() {
+      cout &lt;&lt; &quot;Inside second_space&quot; &lt;&lt; endl;
+   }
+}
+
+using namespace first_space;
+int main () {
+   // This calls function from first name space.
+   func();
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Inside first_space</code></pre>
+</blockquote>
+
+<p>Директива<code> using</code>&nbsp;также может использоваться для обращения к определенному элементу в пространстве имен.&nbsp;Например, если единственная часть пространства имен std, которое вы намереваетесь использовать, это cout, вы можете ссылаться на нее следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>using std::cout;</code></pre>
+</blockquote>
+
+<p>Последующий код может ссылаться на <code>cout</code> без добавления пространства имен, но другие элементы в&nbsp;пространстве имен&nbsp;<code>std</code>&nbsp;все равно должны быть явным следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using std::cout;
+
+int main () {
+   cout &lt;&lt; &quot;std::endl is used with std!&quot; &lt;&lt; std::endl;
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>std::endl is used with std!</code></pre>
+</blockquote>
+
+<p>Имена, введенные в&nbsp;директиве по <code>use</code>,&nbsp;подчиняются нормальным правилам области.&nbsp;Название видно из точки с <code>use</code> директивы до конца объема ,&nbsp;в котором найдена директива.&nbsp;Объекты с тем же именем, которые определены во внешней области, скрыты.</p>
+
+<h2>Несмежные пространства имен</h2>
+
+<p>Пространство имен может быть определено в нескольких частях, поэтому пространство имен составлено из суммы его отдельно определенных частей.&nbsp;Отдельные части пространства имен могут быть распределены по нескольким файлам.</p>
+
+<p>Итак, если для одной части пространства имен требуется имя, определенное в другом файле, это имя должно быть объявлено.&nbsp;Написание следующего определения пространства имен либо определяет новое пространство имен, либо добавляет новые элементы в существующую,</p>
+
+<blockquote>
+<pre>
+<code>namespace namespace_name {
+   // code declarations
+}</code></pre>
+</blockquote>
+
+<h2>Вложенные пространства имен</h2>
+
+<p>Пространства имен могут быть вложенными, где вы можете определить одно пространство имен внутри другого пространства имен следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>namespace namespace_name1 {
+   // code declarations
+   namespace namespace_name2 {
+      // code declarations
+   }
+}</code></pre>
+</blockquote>
+
+<p>Вы можете получить доступ к членам вложенного пространства имен с помощью операторов разрешения следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>// to access members of namespace_name2
+using namespace namespace_name1::namespace_name2;
+
+// to access members of namespace:name1
+using namespace namespace_name1;</code></pre>
+</blockquote>
+
+<p>В приведенных выше утверждениях, если вы используете <code>namespace_name1</code>, тогда он будет создавать элементы <code>namespace_name2</code> в области видимости следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+// first name space
+namespace first_space {
+   void func() {
+      cout &lt;&lt; &quot;Inside first_space&quot; &lt;&lt; endl;
+   }
+   
+   // second name space
+   namespace second_space {
+      void func() {
+         cout &lt;&lt; &quot;Inside second_space&quot; &lt;&lt; endl;
+      }
+   }
+}
+
+using namespace first_space::second_space;
+int main () {
+   // This calls function from second name space.
+   func();
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату -</p>
+
+<blockquote>
+<pre>
+<code>Inside second_space</code></pre>
+</blockquote>

@@ -1,0 +1,93 @@
+﻿<h1>C++ 11 STL</h1>
+
+<h2>Хеш-таблицы</h2>
+
+<p>std::hash_set и std::hash_map давно были нестандартным расширением STL, по факту реализованным в большинстве компиляторов. В C++11 они стали стандартом, под именами std::unordered_set и std::unordered_map. Хотя по факту это хеш-таблицы и стандарт не оставляет много пространства для манёвра, имена даны в стиле C++: не &laquo;как они реализованы&raquo;, а &laquo;что они собой представляют&raquo;.</p>
+
+<h2>Регулярные выражения</h2>
+
+<p>Новая библиотека, объявленная в заголовочном файле &lt;regex&gt;, содержит в себе несколько новых классов:</p>
+
+<p>&nbsp;&nbsp;&nbsp; Регулярные выражения представлены в виде экземпляров класса std::regex;<br />
+&nbsp;&nbsp;&nbsp; результаты поиска представлены в виде экземпляров шаблона std::match_results.</p>
+
+<p>Функция std::regex_search используется для поиска, для операции &lsquo;найти и заменить&rsquo; используется функция std::regex_replace. Функция вернёт строку после выполнения замены. Алгоритмы std::regex_search и std::regex_replace получают на вход регулярное выражение и строку и возвращают найденные результаты в виде экземпляра std::match_results.</p>
+
+<p>Пример использования std::match_results:</p>
+
+<pre>
+<code>    const char *reg_esp = &quot;[ ,.\\t\\n;:]&quot;;  // Список символов-разделителей.
+
+    // то же самое можно сделать, используя &quot;сырые&quot; строки:
+    // const char *reg_esp = R&quot;([ ,.\t\n;:])&quot;;
+
+    std::regex rgx(reg_esp);  // &#39;regex&#39; - это экземпляр шаблонного класса
+                          // &#39;basic_regex&#39; с шаблонным параметром &#39;char&#39;.
+    std::cmatch match;  // &#39;cmatch&#39; - это экземпляр шаблонного класса
+                    // &#39;match_results&#39; с шаблонным параметром &#39;const char *&#39;.
+    const char *target = &quot;Unseen University - Ankh-Morpork&quot;;
+
+    // Фиксирует все слова строки &#39;target&#39; разделённые символами из &#39;reg_esp&#39;.
+    if( std::regex_search( target, match, rgx ) ) {
+        // Если слова, разделённые заданными символами присутствуют в строке.
+
+        const size_t n = match.size();
+        for( size_t a = 0; a &lt; n; a++ ) {
+            std::string str( match[a].first, match[a].second );
+            std::cout &lt;&lt; str &lt;&lt; &quot;\n&quot;;
+        }
+    }</code></pre>
+
+<p>Обратите внимание, что требуется использование двойной обратной косой черты, так как C++ использует обратную косую черту для экранирования символов. Можно использовать &laquo;сырые строки&raquo; &mdash; еще одно нововведение стандарта C++11.</p>
+
+<p>Библиотека &lt;regex&gt; не требует ни изменения существующих заголовочных файлов, ни установки дополнительных расширений языка.<br />
+Расширяемые классы генерации случайных чисел</p>
+
+<p>Стандартная библиотека Си позволяла генерировать псевдо-случайные числа с помощью функции rand. Однако её поведение могло варьироваться в зависимости от реализации.</p>
+
+<p>Данная функциональность разделена на две части: движок генератора, который содержит текущее состояние генератора случайных чисел и производит псевдо-случайные числа и распределения, которое определяет диапазон и математическое распределение результата. Комбинация этих двух объектов создает генератор случайных чисел.</p>
+
+<p>Движки генераторов:</p>
+
+<ul>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; linear_congruential_engine,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; subtract_with_carry_engine,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mersenne_twister_engine.</li>
+</ul>
+
+<p>Распределения:</p>
+
+<ul>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uniform_int_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uniform_real_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bernoulli_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; binomial_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; geometric_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; negative_binomial_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; poisson_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exponential_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gamma_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; weibull_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; extreme_value_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lognormal_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chi_squared_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cauchy_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fisher_f_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; student_t_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; discrete_distribution,</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; piecewise_constant_distribution and</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; piecewise_linear_distribution.</li>
+</ul>
+
+<p>Пример:</p>
+
+<pre>
+<code>    #include &lt;random&gt;
+    #include &lt;functional&gt;
+
+    std::uniform_int_distribution&lt;int&gt; distribution(0, 99);
+    std::mt19937 engine; // Вихрь Мерсенна MT19937
+    auto generator = std::bind(distribution, engine);
+    int random = generator(); // Получить случайное число от 0 до 99.
+    int random2 = distribution(engine); // Получить случайное число, используя движок и распределение напрямую.</code></pre>

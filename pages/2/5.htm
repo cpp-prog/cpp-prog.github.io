@@ -1,0 +1,233 @@
+﻿<h1>C++ - Типы данных</h1>
+
+<div class="tutorial-content">
+<p>При написании программы на любом языке вам нужно использовать различные переменные для хранения различной информации.&nbsp;Переменные - это не что иное, как зарезервированные ячейки памяти для хранения значений.&nbsp;Это означает, что при создании переменной вы сохраняете некоторое пространство в памяти.</p>
+
+<p>Вы можете хранить информацию различных типов данных, таких как символ, широкий символ, целое число, плавающая точка, двойная плавающая точка, логическое значение и т. Д. На основе типа данных переменной операционная система выделяет память и решает, что можно сохранить в зарезервированная память.</p>
+
+<h2>Примитивные встроенные типы</h2>
+
+<p>C ++ предлагает программисту богатый набор встроенных, а также пользовательских типов данных.&nbsp;В следующих таблицах перечислены семь основных типов данных C ++:</p>
+
+<table style="width:100%">
+	<tbody>
+		<tr>
+			<th>Type</th>
+			<th>Keyword</th>
+		</tr>
+		<tr>
+			<td>Boolean</td>
+			<td>bool</td>
+		</tr>
+		<tr>
+			<td>Character</td>
+			<td>char</td>
+		</tr>
+		<tr>
+			<td>Integer</td>
+			<td>int</td>
+		</tr>
+		<tr>
+			<td>Floating point</td>
+			<td>float</td>
+		</tr>
+		<tr>
+			<td>Double floating point</td>
+			<td>double</td>
+		</tr>
+		<tr>
+			<td>Valueless</td>
+			<td>void</td>
+		</tr>
+		<tr>
+			<td>Wide character</td>
+			<td>wchar_t</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Некоторые из основных типов могут быть изменены с использованием одного или нескольких модификаторов этого типа:</p>
+
+<ul>
+	<li>signed</li>
+	<li>unsigned</li>
+	<li>short</li>
+	<li>long</li>
+</ul>
+
+<p>В следующей таблице показан тип переменной, объем памяти, который требуется для хранения значения в памяти, и то, что является максимальным и минимальным значением, которое может быть сохранено в таких переменных.</p>
+
+<table style="width:100%">
+	<tbody>
+		<tr>
+			<th>Type</th>
+			<th>Typical Bit Width</th>
+			<th>Typical Range</th>
+		</tr>
+		<tr>
+			<td>char</td>
+			<td>1byte</td>
+			<td>-127 to 127 or 0 to 255</td>
+		</tr>
+		<tr>
+			<td>unsigned char</td>
+			<td>1byte</td>
+			<td>0 to 255</td>
+		</tr>
+		<tr>
+			<td>signed char</td>
+			<td>1byte</td>
+			<td>-127 to 127</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>4bytes</td>
+			<td>-2147483648 to 2147483647</td>
+		</tr>
+		<tr>
+			<td>unsigned int</td>
+			<td>4bytes</td>
+			<td>0 to 4294967295</td>
+		</tr>
+		<tr>
+			<td>signed int</td>
+			<td>4bytes</td>
+			<td>-2147483648 to 2147483647</td>
+		</tr>
+		<tr>
+			<td>short int</td>
+			<td>2bytes</td>
+			<td>-32768 to 32767</td>
+		</tr>
+		<tr>
+			<td>unsigned short int</td>
+			<td>Range</td>
+			<td>0 to 65,535</td>
+		</tr>
+		<tr>
+			<td>signed short int</td>
+			<td>Range</td>
+			<td>-32768 to 32767</td>
+		</tr>
+		<tr>
+			<td>long int</td>
+			<td>4bytes</td>
+			<td>-2,147,483,648 to 2,147,483,647</td>
+		</tr>
+		<tr>
+			<td>signed long int</td>
+			<td>4bytes</td>
+			<td>same as long int</td>
+		</tr>
+		<tr>
+			<td>unsigned long int</td>
+			<td>4bytes</td>
+			<td>0 to 4,294,967,295</td>
+		</tr>
+		<tr>
+			<td>float</td>
+			<td>4bytes</td>
+			<td>+/- 3.4e +/- 38 (~7 digits)</td>
+		</tr>
+		<tr>
+			<td>double</td>
+			<td>8bytes</td>
+			<td>+/- 1.7e +/- 308 (~15 digits)</td>
+		</tr>
+		<tr>
+			<td>long double</td>
+			<td>8bytes</td>
+			<td>+/- 1.7e +/- 308 (~15 digits)</td>
+		</tr>
+		<tr>
+			<td>wchar_t</td>
+			<td>2 or 4 bytes</td>
+			<td>1 wide character</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;Размер переменных может отличаться от размера, указанного в приведенной выше таблице, в зависимости от компилятора и компьютера, который вы используете.&nbsp;Ниже приведен пример, который даст правильный размер различных типов данных на вашем компьютере.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+   cout &lt;&lt; &quot;Size of char : &quot; &lt;&lt; sizeof(char) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of int : &quot; &lt;&lt; sizeof(int) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of short int : &quot; &lt;&lt; sizeof(short int) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of long int : &quot; &lt;&lt; sizeof(long int) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of float : &quot; &lt;&lt; sizeof(float) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of double : &quot; &lt;&lt; sizeof(double) &lt;&lt; endl;
+   cout &lt;&lt; &quot;Size of wchar_t : &quot; &lt;&lt; sizeof(wchar_t) &lt;&lt; endl;
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>В этом примере используется&nbsp;<strong>endl</strong>&nbsp;, который вводит символ новой строки после каждой строки, а оператор &lt;&lt; используется для передачи нескольких значений на экран.&nbsp;Мы также используем&nbsp;оператор&nbsp;<strong>sizeof ()&nbsp;</strong>для получения размера различных типов данных.</p>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат, который может варьироваться от машины к машине:</p>
+
+<blockquote>
+<pre>
+<code>Size of char : 1
+Size of int : 4
+Size of short int : 2
+Size of long int : 4
+Size of float : 4
+Size of double : 8
+Size of wchar_t : 4</code></pre>
+</blockquote>
+
+<h2>Декларации typedef</h2>
+
+<p>Вы можете создать новое имя для существующего типа с помощью&nbsp;<code>typedef</code>.&nbsp;Ниже приведен простой синтаксис для определения нового типа с использованием typedef:</p>
+
+<blockquote>
+<pre>
+<code>typedef type newname; </code></pre>
+</blockquote>
+
+<p>Например, следующее говорит компилятору, что ногами является другое имя для int:</p>
+
+<blockquote>
+<pre>
+<code>typedef int feet;</code></pre>
+</blockquote>
+
+<p>Теперь следующая декларация совершенно легальна и создает целочисленную переменную, называемую расстоянием:</p>
+
+<blockquote>
+<pre>
+<code>feet distance;</code></pre>
+</blockquote>
+
+<h2>Перечисленные типы</h2>
+
+<p>Перечислимый тип объявляет необязательное имя типа и набор из нуля или более идентификаторов, которые могут использоваться как значения типа.&nbsp;Каждый перечислитель является константой, тип которой является перечислением.&nbsp;Для создания перечисления требуется использование ключевого слова&nbsp;<strong>enum</strong>&nbsp;.&nbsp;Общий вид типа перечисления:</p>
+
+<blockquote>
+<pre>
+<code>enum enum-name { list of names } var-list; </code></pre>
+</blockquote>
+
+<p>Здесь enum-name - это имя типа перечисления.&nbsp;Список имен разделяется запятой.&nbsp;Например, следующий код определяет перечисление цветов, называемых цветами, и переменной c цвета типа.&nbsp;Наконец, c присваивается значение &laquo;blue&raquo;.</p>
+
+<blockquote>
+<pre>
+<code>enum color { red, green, blue } c;
+c = blue;</code></pre>
+</blockquote>
+
+<p>По умолчанию значение первого имени равно 0, второе имя имеет значение 1, а третье - значение 2 и т. Д.&nbsp;Но вы можете указать имя, определенное значение, добавив инициализатор.&nbsp;Например, в следующем перечислении&nbsp;зеленый&nbsp;будет иметь значение 5.</p>
+
+<blockquote>
+<pre>
+<code>enum color { red, green = 5, blue };</code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;blue&nbsp;будет иметь значение 6, потому что каждое имя будет больше, чем предыдущее.</p>
+</div>

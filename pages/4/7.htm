@@ -1,0 +1,156 @@
+﻿<h1>C ++ - Обработка сигналов</h1>
+
+<p>Сигналы - это прерывания, передаваемые процессу операционной системой, которые могут прервать программу преждевременно.&nbsp;Вы можете сгенерировать прерывания, нажав Ctrl + C в системе UNIX, LINUX, Mac OS X или Windows.</p>
+
+<p>Есть сигналы, которые не могут быть пойманы программой, но есть следующий список сигналов, которые вы можете поймать в своей программе и можете принимать соответствующие действия на основе сигнала.&nbsp;Эти сигналы определены в файле заголовка C ++ <code>&lt;csignal&gt;</code>.</p>
+
+<blockquote>
+<p><code>SIGABRT</code></p>
+</blockquote>
+
+<p>Аномальное завершение программы, например, вызов&nbsp;<strong>прерывания</strong>&nbsp;.</p>
+
+<blockquote>
+<p><code>SIGFPE</code></p>
+</blockquote>
+
+<p>Ошибочная арифметическая операция, такая как деление на ноль или операция, приводящая к переполнению.</p>
+
+<blockquote>
+<p><code>SIGILL</code></p>
+</blockquote>
+
+<p>Обнаружение незаконной инструкции.</p>
+
+<blockquote>
+<p><code>SIGINT</code></p>
+</blockquote>
+
+<p>Получение сигнала интерактивного внимания.</p>
+
+<blockquote>
+<p><code>SIGSEGV</code></p>
+</blockquote>
+
+<p>Недействительный доступ к хранилищу.</p>
+
+<blockquote>
+<p><code>SIGTERM</code></p>
+</blockquote>
+
+<p>Запрос завершения, отправленный в программу.</p>
+
+<h2>Функция signal()</h2>
+
+<p>Библиотека управления сигналами C ++ предоставляет&nbsp;<code>signal()</code>&nbsp;функции&nbsp;для обнаружения неожиданных событий.&nbsp;Ниже приведен синтаксис функции <code>signal()</code></p>
+
+<blockquote>
+<pre>
+<code>void (*signal (int sig, void (*func)(int)))(int); </code></pre>
+</blockquote>
+
+<p>Сохраняя это просто, эта функция получает два аргумента: первый аргумент как целое число, которое представляет номер сигнала и второй аргумент как указатель на функцию обработки сигналов.</p>
+
+<p>Напишем простую программу на C ++, где мы будем захватывать сигнал <code>SIGINT</code>, используя функцию <code>signal()</code>.&nbsp;Независимо от сигнала, который вы хотите поймать в своей программе, вы должны зарегистрировать этот сигнал с помощью&nbsp;функции <code>signal()&nbsp;</code>и связать его с обработчиком сигналов.&nbsp;Изучите следующий пример -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;csignal&gt;
+
+using namespace std;
+
+void signalHandler( int signum ) {
+   cout &lt;&lt; &quot;Interrupt signal (&quot; &lt;&lt; signum &lt;&lt; &quot;) received.\n&quot;;
+
+   // cleanup and close up stuff here  
+   // terminate program  
+
+   exit(signum);  
+}
+
+int main () {
+   // register signal SIGINT and signal handler  
+   signal(SIGINT, signalHandler);  
+
+   while(1) {
+      cout &lt;&lt; &quot;Going to sleep....&quot; &lt;&lt; endl;
+      sleep(1);
+   }
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Going to sleep....
+Going to sleep....
+Going to sleep....</code></pre>
+</blockquote>
+
+<p>Теперь нажмите Ctrl + c, чтобы прервать программу, и вы увидите, что ваша программа поймает сигнал и выйдет, напечатав что-то следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>Going to sleep....
+Going to sleep....
+Going to sleep....
+Interrupt signal (2) received.</code></pre>
+</blockquote>
+
+<h2>Функция raise ()</h2>
+
+<p>Вы можете генерировать сигналы функцией&nbsp;<code>raise()</code>, которая принимает целочисленный номер сигнала в качестве аргумента и имеет следующий синтаксис.</p>
+
+<blockquote>
+<pre>
+<code>int raise (signal sig);</code></pre>
+</blockquote>
+
+<p>Здесь&nbsp;<code>sig</code>&nbsp;- это номер сигнала для отправки любого из сигналов: <code>SIGINT, SIGABRT, SIGFPE, SIGILL, SIGSEGV, SIGTERM, SIGHUP</code>.&nbsp;Ниже приведен пример, когда мы поднимаем сигнал внутренне с помощью функции <code>raise()</code> следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;csignal&gt;
+
+using namespace std;
+
+void signalHandler( int signum ) {
+   cout &lt;&lt; &quot;Interrupt signal (&quot; &lt;&lt; signum &lt;&lt; &quot;) received.\n&quot;;
+
+   // cleanup and close up stuff here  
+   // terminate program  
+
+   exit(signum);  
+}
+
+int main () {
+   int i = 0;
+   // register signal SIGINT and signal handler  
+   signal(SIGINT, signalHandler);  
+
+   while(++i) {
+      cout &lt;&lt; &quot;Going to sleep....&quot; &lt;&lt; endl;
+      if( i == 3 ) {
+         raise( SIGINT);
+      }
+      sleep(1);
+   }
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код скомпилирован и исполнен, он производит следующий результат и выйдет автоматически:</p>
+
+<blockquote>
+<pre>
+<code>Going to sleep....
+Going to sleep....
+Going to sleep....
+Interrupt signal (2) received.</code></pre>
+</blockquote>

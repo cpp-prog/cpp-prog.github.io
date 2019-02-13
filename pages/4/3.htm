@@ -1,0 +1,150 @@
+﻿<h1>C ++ - Динамическая память</h1>
+
+<p>Хорошее понимание того, как динамическая память действительно работает на C ++, имеет важное значение для того, чтобы стать хорошим программистом на C ++.&nbsp;Память в вашей программе на C ++ делится на две части -</p>
+
+<ul>
+	<li><strong>Стек.</strong>&nbsp;Все переменные, объявленные внутри функции, будут занимать память из стека.</li>
+	<li><strong>Куча</strong>&nbsp;- это неиспользуемая память программы и может использоваться для динамического распределения памяти при запуске программы.</li>
+</ul>
+
+<p>Много раз вы заранее не знаете, сколько памяти вам потребуется для хранения определенной информации в определенной переменной, а размер требуемой памяти можно определить во время выполнения.</p>
+
+<p>Вы можете выделить память во время выполнения в куче для переменной данного типа с помощью специального оператора в C ++, который возвращает адрес выделенного пространства.&nbsp;Этот оператор называется&nbsp;оператором <code>new</code>.</p>
+
+<p>Если вам больше не нужна динамически распределенная память, вы можете использовать&nbsp;оператор&nbsp;<code>delete</code>&nbsp;, который отменяет выделение памяти, которая ранее была назначена новым оператором.</p>
+
+<h2>Операторы new и delete</h2>
+
+<p>Существует следующий общий синтаксис для использования&nbsp;оператора <code>new</code> для динамического распределения памяти для любого типа данных.</p>
+
+<blockquote>
+<pre>
+<code>new data-type;</code></pre>
+</blockquote>
+
+<p>Здесь <code>data-type</code>&nbsp;может быть любым встроенным типом данных, включая массив или любые пользовательские типы данных, которые включают класс или структуру.&nbsp;Начнем со встроенных типов данных.&nbsp;Например, мы можем определить указатель на тип <code>double</code>, а затем запросить выделение памяти во время выполнения.&nbsp;Мы можем сделать это, используя new<strong>&nbsp;</strong>оператор со следующими утверждениями:</p>
+
+<blockquote>
+<pre>
+<code>double* pvalue  = NULL; // Pointer initialized with null
+pvalue  = new double;   // Request memory for the variable</code></pre>
+</blockquote>
+
+<p>Возможно, память не была выделена успешно, если бы бесплатный магазин был израсходован.&nbsp;Поэтому рекомендуется проверить, возвращает ли новый оператор указатель <code>NULL</code> и предпринять соответствующие действия, как показано ниже:</p>
+
+<blockquote>
+<pre>
+<code>double* pvalue  = NULL;
+if( !(pvalue  = new double )) {
+   cout &lt;&lt; &quot;Error: out of memory.&quot; &lt;&lt;endl;
+   exit(1);
+}</code></pre>
+</blockquote>
+
+<p>Функция&nbsp;<code>malloc()</code>&nbsp;из C все еще существует в C ++, но рекомендуется избегать использования функции <code>malloc()</code>.&nbsp;Основным преимуществом new over malloc () является то, что новый не просто выделяет память, но и строит объекты, которые являются главной целью C ++.</p>
+
+<p>В любой момент, когда вы чувствуете, что переменная, которая была динамически распределена, больше не требуется, вы можете освободить память, которую он занимает в свободном хранилище, с оператором <code>delete</code>&nbsp;следующим образом -</p>
+
+<blockquote>
+<pre>
+<code>delete pvalue;        // Release memory pointed to by pvalue</code></pre>
+</blockquote>
+
+<p>Поставим выше понятия и сформируем следующий пример, чтобы показать, как работают <code>new</code> и <code>delete</code>:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+int main () {
+   double* pvalue  = NULL; // Pointer initialized with null
+   pvalue  = new double;   // Request memory for the variable
+ 
+   *pvalue = 29494.99;     // Store value at allocated address
+   cout &lt;&lt; &quot;Value of pvalue : &quot; &lt;&lt; *pvalue &lt;&lt; endl;
+
+   delete pvalue;         // free up the memory.
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату -</p>
+
+<blockquote>
+<pre>
+<code>Value of pvalue : 29495</code></pre>
+</blockquote>
+
+<h2>Динамическое распределение памяти для массивов</h2>
+
+<p>Предположим, вы хотите выделить память для массива символов, т. е. Строку из 20 символов.&nbsp;Используя тот же синтаксис, который мы использовали выше, мы можем динамически распределять память, как показано ниже.</p>
+
+<blockquote>
+<pre>
+<code>char* pvalue  = NULL;         // Pointer initialized with null
+pvalue  = new char[20];       // Request memory for the variable</code></pre>
+
+<p>Чтобы удалить массив, который мы только что создали, будет выглядеть так:</p>
+
+<pre>
+<code>delete [] pvalue;             // Delete array pointed to by pvalue</code></pre>
+</blockquote>
+
+<p>Следуя аналогичному обобщенному синтаксису нового оператора, вы можете выделить многомерный массив следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>double** pvalue  = NULL;      // Pointer initialized with null 
+pvalue  = new double [3][4];  // Allocate memory for a 3x4 array </code></pre>
+</blockquote>
+
+<p>Однако синтаксис для выпуска памяти для многомерного массива будет по-прежнему оставаться таким же, как и выше:</p>
+
+<blockquote>
+<pre>
+<code>delete [] pvalue;            // Delete array pointed to by pvalue</code></pre>
+</blockquote>
+
+<h2>Динамическое распределение памяти для объектов</h2>
+
+<p>Объекты не отличаются от простых типов данных.&nbsp;Например, рассмотрим следующий код, в котором мы собираемся использовать массив объектов, чтобы прояснить концепцию -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+class Box {
+   public:
+      Box() { 
+         cout &lt;&lt; &quot;Constructor called!&quot; &lt;&lt;endl; 
+      }
+      ~Box() { 
+         cout &lt;&lt; &quot;Destructor called!&quot; &lt;&lt;endl; 
+      }
+};
+int main() {
+   Box* myBoxArray = new Box[4];
+   delete [] myBoxArray; // Delete array
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если вы выделили массив из четырех объектов <code>Box</code>, конструктор<code> Simple</code> будет вызываться четыре раза и аналогично при удалении этих объектов, деструктор также будет называться столько же раз.</p>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Constructor called!
+Constructor called!
+Constructor called!
+Constructor called!
+Destructor called!
+Destructor called!
+Destructor called!
+Destructor called!</code></pre>
+</blockquote>

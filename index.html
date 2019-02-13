@@ -7,7 +7,94 @@
 <body>
 
 <div class="header" id="header">
+<style>
+#top {
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 4px;
+    width:100%;
+    background-color: #1fc8db; /* For browsers that do not support gradients */        
+    background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    opacity:0.95;
+}
+</style>
+<div id="top">
+    <h1>Добро пожаловать на cpp-prog.github.io</h1>
+    <p>Программирование на C++</p>
 </div>
+
+<style>
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.navbar-right {
+  float: right;
+}
+</style>
+<div class="navbar">
+  <a href="index.html">Главная</a>
+  <div class="dropdown">
+    <button class="dropbtn">C++ 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="?2&1">C++ Основы</a>
+      <a href="?3&1">C++ ООП</a>
+      <a href="?4&1">C++ Разное</a>
+    </div>
+  </div>
+  <a href="?C++11&1">C++11</a>
+</div>
+</div>
+
 <div class="row">
   <!-- https://www.w3schools.com/css/css_website_layout.asp -->
   <div class="column side">
@@ -17,11 +104,24 @@
     <div id="middle" style="width: 100%;"></div>
   </div>
   <div class="column side">
-    <div id="right" class="sticky">для рекламы jhjhghgjg jhgjhgjg jhgjghjhg jhgjhjg jhjhghgjg jhgjhgjg jhgjghjhg jhgjhjg</div>
+    <div id="right" class="sticky"></div>
   </div>
 </div>
+
 <div class="footer" id="footer">
+<style>
+.footer {
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #555;
+   color: white;
+   text-align: center;
+}
+</style>
+<div class="footer">
   <p></p>
+</div>
 </div>
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>

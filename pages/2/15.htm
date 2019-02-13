@@ -1,0 +1,187 @@
+﻿<h1>C++ - Числа</h1>
+
+<p>Обычно, когда мы работаем с числами, мы используем примитивные типы данных, такие как <code>int, short, long, float</code> и <code>double</code> и т. д. Количество типов данных данных, их возможные значения и диапазоны чисел были объяснены при обсуждении типов данных C ++.</p>
+
+<h2>Определение номеров в C ++</h2>
+
+<p>Вы уже определили числа в различных примерах, приведенных в предыдущих главах.&nbsp;Вот еще один объединенный пример для определения различных типов чисел в C ++ -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+ 
+int main () {
+   // number definition:
+   short  s;
+   int    i;
+   long   l;
+   float  f;
+   double d;
+   
+   // number assignments;
+   s = 10;      
+   i = 1000;    
+   l = 1000000; 
+   f = 230.47;  
+   d = 30949.374;
+   
+   // number printing;
+   cout &lt;&lt; &quot;short  s :&quot; &lt;&lt; s &lt;&lt; endl;
+   cout &lt;&lt; &quot;int    i :&quot; &lt;&lt; i &lt;&lt; endl;
+   cout &lt;&lt; &quot;long   l :&quot; &lt;&lt; l &lt;&lt; endl;
+   cout &lt;&lt; &quot;float  f :&quot; &lt;&lt; f &lt;&lt; endl;
+   cout &lt;&lt; &quot;double d :&quot; &lt;&lt; d &lt;&lt; endl;
+ 
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>short  s :10
+int    i :1000
+long   l :1000000
+float  f :230.47
+double d :30949.4</code></pre>
+</blockquote>
+
+<h2>Математические операции на C ++</h2>
+
+<p>В дополнение к различным функциям, которые вы можете создать, C ++ также содержит некоторые полезные функции, которые вы можете использовать.&nbsp;Эти функции доступны в стандартных библиотеках C и C ++ и называются&nbsp;<strong>built-in (встроенными)</strong>&nbsp;функциями.&nbsp;Это функции, которые могут быть включены в вашу программу, а затем использовать.</p>
+
+<p>C ++ имеет богатый набор математических операций, которые могут выполняться на разных номерах.&nbsp;В следующих таблицах перечислены некоторые полезные встроенные математические функции, доступные на C ++.</p>
+
+<p>Чтобы использовать эти функции, вам нужно включить файл заголовка math&nbsp;<strong>&lt;cmath&gt;</strong>&nbsp;.</p>
+
+<table border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td><strong>double cos(double);</strong></td>
+			<td>Эта функция принимает угол (как двойной) и возвращает косинус.</td>
+		</tr>
+		<tr>
+			<td><strong>double sin(double);</strong></td>
+			<td>Эта функция принимает угол (как двойной) и возвращает синус.</td>
+		</tr>
+		<tr>
+			<td><strong>double tan(double);</strong></td>
+			<td>Эта функция принимает угол (как двойной) и возвращает касательную.</td>
+		</tr>
+		<tr>
+			<td><strong>double log(double);</strong></td>
+			<td>Эта функция принимает число и возвращает натуральный журнал этого числа.</td>
+		</tr>
+		<tr>
+			<td><strong>double pow(double, double);</strong></td>
+			<td>Первый - это номер, который вы хотите поднять, а второй - мощность, которую вы хотите поднять.</td>
+		</tr>
+		<tr>
+			<td><strong>double hypot(double, double);</strong></td>
+			<td>Если вы передадите этой функции длину двух сторон правого треугольника, она вернет вам длину гипотенузы.</td>
+		</tr>
+		<tr>
+			<td><strong>double sqrt(double);</strong></td>
+			<td>Вы передаете этой функции число, и оно дает квадратный корень.</td>
+		</tr>
+		<tr>
+			<td><strong>int abs(int);</strong></td>
+			<td>Эта функция возвращает абсолютное значение целого числа, которое передается ему.</td>
+		</tr>
+		<tr>
+			<td><strong>double fabs(double);</strong></td>
+			<td>Эта функция возвращает абсолютное значение любого десятичного числа, переданного ему.</td>
+		</tr>
+		<tr>
+			<td><strong>double floor(double);</strong></td>
+			<td>Находит целое число, которое меньше или равно аргументу, переданному ему.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Ниже приведен простой пример, чтобы показать несколько математических операций:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+ 
+int main () {
+   // number definition:
+   short  s = 10;
+   int    i = -1000;
+   long   l = 100000;
+   float  f = 230.47;
+   double d = 200.374;
+
+   // mathematical operations;
+   cout &lt;&lt; &quot;sin(d) :&quot; &lt;&lt; sin(d) &lt;&lt; endl;
+   cout &lt;&lt; &quot;abs(i)  :&quot; &lt;&lt; abs(i) &lt;&lt; endl;
+   cout &lt;&lt; &quot;floor(d) :&quot; &lt;&lt; floor(d) &lt;&lt; endl;
+   cout &lt;&lt; &quot;sqrt(f) :&quot; &lt;&lt; sqrt(f) &lt;&lt; endl;
+   cout &lt;&lt; &quot;pow( d, 2) :&quot; &lt;&lt; pow(d, 2) &lt;&lt; endl;
+ 
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>sign(d)     :-0.634939
+abs(i)      :1000
+floor(d)    :200
+sqrt(f)     :15.1812
+pow( d, 2 ) :40149.7</code></pre>
+</blockquote>
+
+<h2>Случайные числа в C ++</h2>
+
+<p>Есть много случаев, когда вы захотите создать случайное число.&nbsp;На самом деле есть две функции, которые вам нужно знать о генерации случайных чисел.&nbsp;Первый - это&nbsp;<code>rand ()&nbsp;</code>, эта функция вернет только псевдослучайное число.&nbsp;Способ исправить это - сначала вызвать&nbsp;функцию<strong> </strong><code>srand ()</code>&nbsp;.</p>
+
+<p>Ниже приведен простой пример для генерации нескольких случайных чисел.&nbsp;В этом примере используется&nbsp;функция<code>&nbsp;time ()</code>,&nbsp;чтобы получить количество секунд в системном времени, чтобы случайно распределить функцию <code>rand ()</code></p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+#include &lt;cstdlib&gt;
+
+using namespace std;
+ 
+int main () {
+   int i,j;
+ 
+   // set the seed
+   srand( (unsigned)time( NULL ) );
+
+   /* generate 10  random numbers. */
+   for( i = 0; i &lt; 10; i++ ) {
+      // generate actual random number
+      j = rand();
+      cout &lt;&lt;&quot; Random Number : &quot; &lt;&lt; j &lt;&lt; endl;
+   }
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Random Number : 1748144778
+Random Number : 630873888
+Random Number : 2134540646
+Random Number : 219404170
+Random Number : 902129458
+Random Number : 920445370
+Random Number : 1319072661
+Random Number : 257938873
+Random Number : 1256201101
+Random Number : 580322989</code></pre>
+</blockquote>

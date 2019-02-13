@@ -1,0 +1,253 @@
+﻿<h1>C++ - Константы и литералы</h1>
+
+<div class="tutorial-content">
+<p>Константы относятся к фиксированным значениям, которые программа может не изменять, и они называются&nbsp;литералами.&nbsp;Константы могут быть любого из основных типов данных и могут быть разделены на целые числа, числа с плавающей запятой, символы, строки и логические значения.&nbsp;Опять же, константы обрабатываются так же, как и обычные переменные, за исключением того, что их значения не могут быть изменены после их определения.</p>
+
+<h2>Целочисленные литеры</h2>
+
+<p>Целочисленный литерал может быть десятичной, восьмеричной или шестнадцатеричной константой.&nbsp;Префикс указывает базу или основание: 0x или 0X для шестнадцатеричного, 0 для восьмеричного и ничего для десятичного.</p>
+
+<p>Целочисленный литерал может также иметь суффикс, который представляет собой комбинацию U и L, для беззнаковых и длинных, соответственно.&nbsp;Суффикс может быть прописным или строчным и может быть в любом порядке.</p>
+
+<p>Вот несколько примеров целочисленных литералов:</p>
+
+<blockquote>
+<pre>
+<code>212         // Legal
+215u        // Legal
+0xFeeL      // Legal
+078         // Illegal: 8 is not an octal digit
+032UU       // Illegal: cannot repeat a suffix</code></pre>
+</blockquote>
+
+<p>Ниже приведены другие примеры различных типов целых литералов:</p>
+
+<blockquote>
+<pre>
+<code>85         // decimal
+0213       // octal
+0x4b       // hexadecimal
+30         // int
+30u        // unsigned int
+30l        // long
+30ul       // unsigned long</code></pre>
+</blockquote>
+
+<h2>Литералы с плавающей запятой</h2>
+
+<p>Литерал с плавающей запятой имеет целую часть, десятичную точку, дробную часть и экспоненциальную часть.&nbsp;Вы можете представлять литералы с плавающей запятой либо в десятичной форме, либо в экспоненциальной форме.</p>
+
+<p>Представляя, используя десятичную форму, вы должны указать десятичную точку, показатель экспоненты или и то, и другое, представляя, используя экспоненциальную форму, вы должны включить целую часть, дробную часть или и то, и другое.&nbsp;Подписанный показатель вводится e или E.</p>
+
+<p>Вот несколько примеров литералов с плавающей запятой:</p>
+
+<blockquote>
+<pre>
+<code>3.14159       // Legal
+314159E-5L    // Legal
+510E          // Illegal: incomplete exponent
+210f          // Illegal: no decimal or exponent
+.e55          // Illegal: missing integer or fraction</code></pre>
+</blockquote>
+
+<h2>Булевы литералы</h2>
+
+<p>Есть два булевых литерала, и они являются частью стандартных ключевых слов на C ++ -</p>
+
+<ul>
+	<li>Значение&nbsp;<strong>true,</strong>&nbsp;представляющее true.</li>
+	<li>Значение&nbsp;<strong>false,</strong>&nbsp;представляющее false.</li>
+</ul>
+
+<p>Вы не должны считать значение true равным 1, а значение false равно 0.</p>
+
+<h2>Литералы символов</h2>
+
+<p>Символьные литералы заключены в одинарные кавычки.&nbsp;Если литерал начинается с L (только в верхнем регистре), это широкий литерал буква (например,<code> L&#39;x &#39;</code>) и должен храниться в&nbsp;переменной типа&nbsp;<code>wchar_t</code>&nbsp;.&nbsp;В противном случае это узкий буквенный символ (например, &laquo;x&raquo;) и может быть сохранен в простой переменной типа&nbsp;<code>char</code>&nbsp;.</p>
+
+<p>Литеральный символ может быть простым символом (например, <code>x</code>), escape-последовательность (например, <code>\ t</code>) или универсальный символ (например, <code>\ u02C0</code>).</p>
+
+<p>В C ++ есть определенные символы, когда им предшествует обратная косая черта, они будут иметь особый смысл, и они используются для представления как новой строки <code>(\ n)</code> или <code>tab (\ t)</code>.&nbsp;Здесь у вас есть список некоторых таких кодов escape-последовательности:</p>
+
+<table style="width:100%">
+	<tbody>
+		<tr>
+			<th>Escape sequence</th>
+			<th>Meaning</th>
+		</tr>
+		<tr>
+			<td>\\</td>
+			<td>\ character</td>
+		</tr>
+		<tr>
+			<td>\&#39;</td>
+			<td>&#39; character</td>
+		</tr>
+		<tr>
+			<td>\&quot;</td>
+			<td>&quot; character</td>
+		</tr>
+		<tr>
+			<td>\?</td>
+			<td>? character</td>
+		</tr>
+		<tr>
+			<td>\a</td>
+			<td>Alert or bell</td>
+		</tr>
+		<tr>
+			<td>\b</td>
+			<td>Backspace</td>
+		</tr>
+		<tr>
+			<td>\f</td>
+			<td>Form feed</td>
+		</tr>
+		<tr>
+			<td>\n</td>
+			<td>Newline</td>
+		</tr>
+		<tr>
+			<td>\r</td>
+			<td>Carriage return</td>
+		</tr>
+		<tr>
+			<td>\t</td>
+			<td>Horizontal tab</td>
+		</tr>
+		<tr>
+			<td>\v</td>
+			<td>Vertical tab</td>
+		</tr>
+		<tr>
+			<td>\ooo</td>
+			<td>Octal number of one to three digits</td>
+		</tr>
+		<tr>
+			<td>\xhh . . .</td>
+			<td>Hexadecimal number of one or more digits</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Ниже приведен пример, чтобы показать несколько символов escape-последовательности:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+   cout &lt;&lt; &quot;Hello\tWorld\n\n&quot;;
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Hello   World</code></pre>
+</blockquote>
+
+<h2>Строковые литералы</h2>
+
+<p>Строковые литералы заключены в двойные кавычки.&nbsp;Строка содержит символы, похожие на символьные литералы: простые символы, escape-последовательности и универсальные символы.</p>
+
+<p>Вы можете разбить длинную строку на несколько строк, используя строковые литералы, и разделить их на использование пробелов.</p>
+
+<p>Вот несколько примеров строковых литералов.&nbsp;Все три формы идентичны.</p>
+
+<blockquote>
+<pre>
+<code>&quot;hello, dear&quot;
+
+&quot;hello, \
+
+dear&quot;
+
+&quot;hello, &quot; &quot;d&quot; &quot;ear&quot;</code></pre>
+</blockquote>
+
+<h2>Определение констант</h2>
+
+<p>В C ++ существует два простых способа определения констант -</p>
+
+<ul>
+	<li>Использование&nbsp;препроцессора&nbsp;<code>#define</code></li>
+	<li>Использование&nbsp;ключевого слова&nbsp;<code>const</code></li>
+</ul>
+
+<h2>Префикс #define</h2>
+
+<p>Ниже приведена форма использования препроцессора #define для определения константы:</p>
+
+<blockquote>
+<pre>
+<code>#define identifier value</code></pre>
+</blockquote>
+
+<p>В следующем примере это объясняется подробно:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+#define LENGTH 10   
+#define WIDTH  5
+#define NEWLINE &#39;\n&#39;
+
+int main() {
+   int area;  
+   
+   area = LENGTH * WIDTH;
+   cout &lt;&lt; area;
+   cout &lt;&lt; NEWLINE;
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>50</code></pre>
+</blockquote>
+
+<h2>Ключевое слово const</h2>
+
+<p>Вы можете использовать&nbsp;префикс&nbsp;<code>const</code>&nbsp;для объявления констант определенного типа следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>const type variable = value;</code></pre>
+
+<p>В следующем примере это объясняется подробно:</p>
+
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+   const int  LENGTH = 10;
+   const int  WIDTH  = 5;
+   const char NEWLINE = &#39;\n&#39;;
+   int area;  
+   
+   area = LENGTH * WIDTH;
+   cout &lt;&lt; area;
+   cout &lt;&lt; NEWLINE;
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>50</code></pre>
+</blockquote>
+
+<p>Обратите внимание, что это хорошая практика программирования для определения констант в <code>CAPITALS</code>.</p>
+</div>

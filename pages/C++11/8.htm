@@ -1,0 +1,82 @@
+﻿<h1>Альтернативный синтаксис функций</h1>
+
+<p>Иногда возникает потребность в реализации шаблона функции, результатом применения которого являлось бы выражение, имеющее тот же тип и ту же категорию значения (value category), что и у некоторого другого выражения.</p>
+
+<pre>
+<code>template &lt;typename LHS, typename RHS&gt;
+    RETURN_TYPE AddingFunc(const LHS &amp;lhs, const RHS &amp;rhs) // каким должен быть RETURN_TYPE?
+{
+    return lhs + rhs;
+}</code></pre>
+
+<p>Для того, чтобы выражение <tt>AddingFunc(x, y)</tt> имело тот же тип и ту же категорию значения, что и выражение <tt>lhs + rhs</tt> при передаче данных аргументов <tt>x</tt> и <tt>y</tt>, в рамках C++11 можно было бы использовать следующее определение:</p>
+
+<pre>
+<code>template &lt;typename LHS, typename RHS&gt; 
+    decltype(std::declval&lt;const LHS &amp;&gt;() + std::declval&lt;const RHS &amp;&gt;())
+        AddingFunc(const LHS &amp;lhs, const RHS &amp;rhs)
+{
+    return lhs + rhs;
+}</code>
+</pre>
+
+<p>Данная запись несколько громоздка, и было бы хорошо иметь возможность вместо std::declval&lt;const LHS &amp;&gt;() и std::declval&lt;const RHS &amp;&gt;() использовать соответственно lhs и rhs. Однако в следующем варианте</p>
+
+<pre>
+<code>template &lt;typename LHS, typename RHS&gt; 
+    decltype(lhs + rhs) AddingFunc(const LHS &amp;lhs, const RHS &amp;rhs) // Не допустимо в C++11
+{
+    return lhs + rhs;
+}</code>
+</pre>
+
+<p>выглядящем более удобочитаемым, идентификаторы <tt>lhs</tt> и <tt>rhs</tt>, используемые в операнде decltype, не могут обозначать параметры, объявленные позже. Для решения этой проблемы в C++11 представлен новый синтаксис объявления функций с указанием возвращаемого типа в конце:</p>
+
+<pre>
+<code>template &lt;typename LHS, typename RHS&gt; 
+    auto AddingFunc(const LHS &amp;lhs, const RHS &amp;rhs) -&gt; decltype(lhs + rhs)
+{
+    return lhs + rhs;
+}</code>
+</pre>
+
+<p>Следует отметить, однако, что в более обобщённой реализации AddingFunc, приведённой ниже, новый синтаксис не даёт выигрыша в плане краткости:</p>
+
+<pre>
+<code>template &lt;typename LHS, typename RHS&gt;
+    auto AddingFunc(LHS &amp;&amp;lhs, RHS &amp;&amp;rhs) -&gt;
+        decltype(std::forward&lt;LHS&gt;(lhs) + std::forward&lt;RHS&gt;(rhs))
+{
+    return std::forward&lt;LHS&gt;(lhs) + std::forward&lt;RHS&gt;(rhs);
+}
+
+template &lt;typename LHS, typename RHS&gt;
+    auto AddingFunc(LHS &amp;&amp;lhs, RHS &amp;&amp;rhs) -&gt;
+        decltype(std::declval&lt;LHS&gt;() + std::declval&lt;RHS&gt;()) // эффект такой же, как и с std::forward выше
+{
+    return std::forward&lt;LHS&gt;(lhs) + std::forward&lt;RHS&gt;(rhs);
+}
+
+template &lt;typename LHS, typename RHS&gt;
+    decltype(std::declval&lt;LHS&gt;() + std::declval&lt;RHS&gt;()) // эффект такой же, как и с помещением типа в конец
+        AddingFunc(LHS &amp;&amp;lhs, RHS &amp;&amp;rhs)
+
+{
+    return std::forward&lt;LHS&gt;(lhs) + std::forward&lt;RHS&gt;(rhs);
+}</code></pre>
+
+<p>Новый синтаксис может использоваться в более простых объявлениях и описаниях:</p>
+
+<pre>
+<code>struct SomeStruct
+{
+    auto FuncName(int x, int y) -&gt; int;
+};
+
+auto SomeStruct::FuncName(int x, int y) -&gt; int
+{
+    return x + y;
+}</code>
+</pre>
+
+<p>Использование ключевого слова &laquo;<code>auto</code>&raquo; в этом случае означает только позднее указание возвращаемого типа и не связано с его автоматическим выведением.</p>

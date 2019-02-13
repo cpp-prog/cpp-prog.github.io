@@ -1,0 +1,288 @@
+﻿<h1>C ++ - Структуры данных</h1>
+
+<div class="tutorial-content">
+<p>Массивы C / C ++ позволяют вам определять переменные, которые объединяют несколько элементов данных того же типа, но&nbsp;<strong>структура</strong>&nbsp;- это другой тип данных, определенный пользователем, который позволяет комбинировать элементы данных разных типов.</p>
+
+<p>Структуры используются для представления записи, предположим, что вы хотите отслеживать свои книги в библиотеке.&nbsp;Вы можете отслеживать следующие атрибуты каждой книги -</p>
+
+<ul>
+	<li>заглавие</li>
+	<li>автор</li>
+	<li>Предмет</li>
+	<li>Книжный идентификатор</li>
+</ul>
+
+<h2>Определение структуры</h2>
+
+<p>Чтобы определить структуру, вы должны использовать оператор struct.&nbsp;Оператор struct определяет новый тип данных с более чем одним членом для вашей программы.&nbsp;Формат инструкции struct заключается в следующем:</p>
+
+<blockquote>
+<pre>
+<code>struct [structure tag] {
+   member definition;
+   member definition;
+   ...
+   member definition;
+} [one or more structure variables];</code></pre>
+</blockquote>
+
+<p><strong>Структура тега</strong>&nbsp;является необязательным ,&nbsp;и каждое определение членом является нормальным определение переменной, такие как INT I;&nbsp;или float f;&nbsp;или любое другое допустимое определение переменной.&nbsp;В конце определения структуры перед конечной точкой с запятой вы можете указать одну или несколько структурных переменных, но это необязательно.&nbsp;Вот как вы заявляете структуру книги -</p>
+
+<blockquote>
+<pre>
+<code>struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+} book;</code></pre>
+</blockquote>
+
+<h2>Доступ к членам структуры</h2>
+
+<p>Чтобы получить доступ к любому члену структуры, мы используем&nbsp;<strong>оператор доступа</strong>&nbsp;к&nbsp;<strong>члену (.)</strong>&nbsp;.&nbsp;Оператор доступа к членству кодируется как период между именем переменной структуры и членом структуры, к которому мы хотим получить доступ.&nbsp;Вы должны использовать&nbsp;ключевое слово&nbsp;<strong>struct</strong>&nbsp;для определения переменных типа структуры.&nbsp;Ниже приведен пример объяснения использования структуры -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+ 
+using namespace std;
+ 
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+};
+ 
+int main() {
+   struct Books Book1;        // Declare Book1 of type Book
+   struct Books Book2;        // Declare Book2 of type Book
+ 
+   // book 1 specification
+   strcpy( Book1.title, &quot;Learn C++ Programming&quot;);
+   strcpy( Book1.author, &quot;Chand Miyan&quot;); 
+   strcpy( Book1.subject, &quot;C++ Programming&quot;);
+   Book1.book_id = 6495407;
+
+   // book 2 specification
+   strcpy( Book2.title, &quot;Telecom Billing&quot;);
+   strcpy( Book2.author, &quot;Yakit Singha&quot;);
+   strcpy( Book2.subject, &quot;Telecom&quot;);
+   Book2.book_id = 6495700;
+ 
+   // Print Book1 info
+   cout &lt;&lt; &quot;Book 1 title : &quot; &lt;&lt; Book1.title &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 1 author : &quot; &lt;&lt; Book1.author &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 1 subject : &quot; &lt;&lt; Book1.subject &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 1 id : &quot; &lt;&lt; Book1.book_id &lt;&lt;endl;
+
+   // Print Book2 info
+   cout &lt;&lt; &quot;Book 2 title : &quot; &lt;&lt; Book2.title &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 2 author : &quot; &lt;&lt; Book2.author &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 2 subject : &quot; &lt;&lt; Book2.subject &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book 2 id : &quot; &lt;&lt; Book2.book_id &lt;&lt;endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Book 1 title : Learn C++ Programming
+Book 1 author : Chand Miyan
+Book 1 subject : C++ Programming
+Book 1 id : 6495407
+Book 2 title : Telecom Billing
+Book 2 author : Yakit Singha
+Book 2 subject : Telecom
+Book 2 id : 6495700</code></pre>
+</blockquote>
+
+<h2>Структуры как аргументы функции</h2>
+
+<p>Вы можете передать структуру как аргумент функции так же, как и любую другую переменную или указатель.&nbsp;Вы получите доступ к структурным переменным таким же образом, как вы получили доступ в приведенном выше примере -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+ 
+using namespace std;
+void printBook( struct Books book );
+
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+};
+ 
+int main() {
+   struct Books Book1;        // Declare Book1 of type Book
+   struct Books Book2;        // Declare Book2 of type Book
+ 
+   // book 1 specification
+   strcpy( Book1.title, &quot;Learn C++ Programming&quot;);
+   strcpy( Book1.author, &quot;Chand Miyan&quot;); 
+   strcpy( Book1.subject, &quot;C++ Programming&quot;);
+   Book1.book_id = 6495407;
+
+   // book 2 specification
+   strcpy( Book2.title, &quot;Telecom Billing&quot;);
+   strcpy( Book2.author, &quot;Yakit Singha&quot;);
+   strcpy( Book2.subject, &quot;Telecom&quot;);
+   Book2.book_id = 6495700;
+ 
+   // Print Book1 info
+   printBook( Book1 );
+
+   // Print Book2 info
+   printBook( Book2 );
+
+   return 0;
+}
+void printBook( struct Books book ) {
+   cout &lt;&lt; &quot;Book title : &quot; &lt;&lt; book.title &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book author : &quot; &lt;&lt; book.author &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book subject : &quot; &lt;&lt; book.subject &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book id : &quot; &lt;&lt; book.book_id &lt;&lt;endl;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Book title : Learn C++ Programming
+Book author : Chand Miyan
+Book subject : C++ Programming
+Book id : 6495407
+Book title : Telecom Billing
+Book author : Yakit Singha
+Book subject : Telecom
+Book id : 6495700</code></pre>
+</blockquote>
+
+<h2>Указатели на структуры</h2>
+
+<p>Вы можете определить указатели на структуры так же, как вы указали указатель на любую другую переменную следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>struct Books *struct_pointer;</code></pre>
+</blockquote>
+
+<p>Теперь вы можете сохранить адрес структурной переменной в указанной выше переменной указателя.&nbsp;Чтобы найти адрес структурной переменной, поместите оператор &amp; перед именем структуры следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>struct_pointer = &amp;Book1;</code></pre>
+</blockquote>
+
+<p>Чтобы получить доступ к элементам структуры, используя указатель на эту структуру, вы должны использовать оператор -&gt; следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>struct_pointer-&gt;title;</code></pre>
+</blockquote>
+
+<p>Давайте перепишем выше пример с помощью указателя структуры, надеемся, что вам будет легко понять концепцию -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+ 
+using namespace std;
+void printBook( struct Books *book );
+
+struct Books {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+};
+int main() {
+   struct Books Book1;        // Declare Book1 of type Book
+   struct Books Book2;        // Declare Book2 of type Book
+ 
+   // Book 1 specification
+   strcpy( Book1.title, &quot;Learn C++ Programming&quot;);
+   strcpy( Book1.author, &quot;Chand Miyan&quot;); 
+   strcpy( Book1.subject, &quot;C++ Programming&quot;);
+   Book1.book_id = 6495407;
+
+   // Book 2 specification
+   strcpy( Book2.title, &quot;Telecom Billing&quot;);
+   strcpy( Book2.author, &quot;Yakit Singha&quot;);
+   strcpy( Book2.subject, &quot;Telecom&quot;);
+   Book2.book_id = 6495700;
+ 
+   // Print Book1 info, passing address of structure
+   printBook( &amp;Book1 );
+
+   // Print Book1 info, passing address of structure
+   printBook( &amp;Book2 );
+
+   return 0;
+}
+
+// This function accept pointer to structure as parameter.
+void printBook( struct Books *book ) {
+   cout &lt;&lt; &quot;Book title : &quot; &lt;&lt; book-&gt;title &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book author : &quot; &lt;&lt; book-&gt;author &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book subject : &quot; &lt;&lt; book-&gt;subject &lt;&lt;endl;
+   cout &lt;&lt; &quot;Book id : &quot; &lt;&lt; book-&gt;book_id &lt;&lt;endl;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Book title : Learn C++ Programming
+Book author : Chand Miyan
+Book subject : C++ Programming
+Book id : 6495407
+Book title : Telecom Billing
+Book author : Yakit Singha
+Book subject : Telecom
+Book id : 6495700</code></pre>
+</blockquote>
+
+<h2>Ключевое слово typedef</h2>
+
+<p>Существует более простой способ определения структур, или вы можете создавать типы псевдонимов.&nbsp;Например,</p>
+
+<blockquote>
+<pre>
+<code>typedef struct {
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+} Books;</code></pre>
+</blockquote>
+
+<p>Теперь вы можете&nbsp;напрямую&nbsp;использовать&nbsp;<em>книги</em>&nbsp;для определения переменных типа&nbsp;<em>Books</em>&nbsp;без использования ключевого слова struct.&nbsp;Ниже приведен пример -</p>
+
+<blockquote>
+<pre>
+<code>Books Book1, Book2;</code></pre>
+</blockquote>
+
+<p>Вы можете использовать&nbsp;ключевое слово&nbsp;<code>typedef</code>&nbsp;для неструктур, а также следующее:</p>
+
+<blockquote>
+<pre>
+<code>typedef long int *pint32;
+ 
+pint32 x, y, z;</code></pre>
+</blockquote>
+
+<p>x, y и z - все указатели на длинные int.</p>
+</div>

@@ -1,0 +1,143 @@
+﻿<h1>C ++ - Дата и время</h1>
+
+<p>Стандартная библиотека C ++ не предоставляет правильный тип даты.&nbsp;C ++ наследует структуры и функции для обработки дат и времени из C. Чтобы получить доступ к функциям и структурам, связанным с датой и временем, вам нужно будет включить заголовочный файл &lt;ctime&gt; в вашей программе на C ++.</p>
+
+<p>Существует четыре типа времени:&nbsp;<code>clock_t, time_t, size_t</code>&nbsp;и&nbsp;<code>tm</code>&nbsp;.&nbsp;Типы -<code> clock_t, size_t</code> и <code>time_t</code> могут представлять системное время и дату как некоторое целое число.</p>
+
+<p>Тип структуры&nbsp;<code>tm</code>&nbsp;содержит дату и время в виде структуры C, имеющей следующие элементы:</p>
+
+<blockquote>
+<pre>
+<code>struct tm {
+   int tm_sec;   // seconds of minutes from 0 to 61
+   int tm_min;   // minutes of hour from 0 to 59
+   int tm_hour;  // hours of day from 0 to 24
+   int tm_mday;  // day of month from 1 to 31
+   int tm_mon;   // month of year from 0 to 11
+   int tm_year;  // year since 1900
+   int tm_wday;  // days since sunday
+   int tm_yday;  // days since January 1st
+   int tm_isdst; // hours of daylight savings time
+}</code></pre>
+</blockquote>
+
+<p>Ниже приведены важные функции, которые мы используем при работе с датой и временем на C или C ++.&nbsp;Все эти функции являются частью стандартной библиотеки C и C ++, и вы можете проверить их детали, используя ссылку на стандартную библиотеку C ++, приведенную ниже.</p>
+
+<table border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td><strong>time_t time (time_t * time);</strong></td>
+			<td>Это возвращает текущее время календаря системы в количестве секунд, прошедших с 1 января 1970 года. Если система не имеет времени, возвращается .1.</td>
+		</tr>
+		<tr>
+			<td><strong>char * ctime (const time_t * time);</strong></td>
+			<td>Это возвращает указатель на строку формы&nbsp;<em>день месяц год: минуты: секунды год \ n \ 0</em>&nbsp;.</td>
+		</tr>
+		<tr>
+			<td><strong>struct tm * localtime (const time_t * time);</strong></td>
+			<td>Это возвращает указатель на&nbsp;структуру&nbsp;<strong>tm,</strong>&nbsp;представляющую локальное время.</td>
+		</tr>
+		<tr>
+			<td><strong>clock_t clock (void);</strong></td>
+			<td>Это возвращает значение, которое приблизительно соответствует времени, в течение которого вызываемая программа была запущена.&nbsp;Значение, равное .1, возвращается, если время недоступно.</td>
+		</tr>
+		<tr>
+			<td><strong>char * asctime (const struct tm * time);</strong></td>
+			<td>Это возвращает указатель на строку, содержащую информацию, хранящуюся в структуре, на которую указывает время, преобразованное в форму: day month date hours: minutes: seconds year \ n \ 0</td>
+		</tr>
+		<tr>
+			<td><strong>struct tm * gmtime (const time_t * time);</strong></td>
+			<td>Это возвращает указатель на время в виде структуры tm.&nbsp;Время представлено в скоординированном универсальном времени (UTC), которое по сути является средним временем по Гринвичу (GMT).</td>
+		</tr>
+		<tr>
+			<td><strong>time_t mktime (struct tm * time);</strong></td>
+			<td>Это возвращает эквивалент календарного времени времени, найденного в структуре, на которую указывает время.</td>
+		</tr>
+		<tr>
+			<td><strong>double difftime (time_t time2, time_t time1);</strong></td>
+			<td>Эта функция вычисляет разницу в секундах между временем 1 и временем 2.</td>
+		</tr>
+		<tr>
+			<td><strong>size_t strftime ();</strong></td>
+			<td>Эта функция может использоваться для форматирования даты и времени в определенном формате.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Текущая дата и время</h2>
+
+<p>Предположим, вы хотите получить текущую системную дату и время, либо в качестве локального времени, либо в качестве скоординированного универсального времени (UTC).&nbsp;Ниже приведен пример для достижения того же:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+
+using namespace std;
+
+int main() {
+   // current date/time based on current system
+   time_t now = time(0);
+   
+   // convert now to string form
+   char* dt = ctime(&amp;now);
+
+   cout &lt;&lt; &quot;The local date and time is: &quot; &lt;&lt; dt &lt;&lt; endl;
+
+   // convert now to tm struct for UTC
+   tm *gmtm = gmtime(&amp;now);
+   dt = asctime(gmtm);
+   cout &lt;&lt; &quot;The UTC date and time is:&quot;&lt;&lt; dt &lt;&lt; endl;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>The local date and time is: Sat Jan  8 20:07:41 2011
+
+The UTC date and time is:Sun Jan  9 03:07:41 2011</code></pre>
+</blockquote>
+
+<h2>Формат времени с использованием struct tm</h2>
+
+<p>Структура&nbsp;<strong>tm</strong>&nbsp;очень важна при работе с датой и временем на C или C ++.&nbsp;Эта структура содержит дату и время в виде структуры C, как указано выше.&nbsp;Большинство функций, связанных со временем, используют структуру tm.&nbsp;Ниже приведен пример, который использует различные функции, связанные с датой и временем, и структуру tm -</p>
+
+<p>При использовании структуры в этой главе я исхожу из предположения, что у вас есть базовое понимание структуры C и как получить доступ к членам структуры с помощью оператора <code>arrow -&gt;</code>.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+
+using namespace std;
+
+int main() {
+   // current date/time based on current system
+   time_t now = time(0);
+
+   cout &lt;&lt; &quot;Number of sec since January 1,1970:&quot; &lt;&lt; now &lt;&lt; endl;
+
+   tm *ltm = localtime(&amp;now);
+
+   // print various components of tm structure.
+   cout &lt;&lt; &quot;Year&quot; &lt;&lt; 1970 + ltm-&gt;tm_year&lt;&lt;endl;
+   cout &lt;&lt; &quot;Month: &quot;&lt;&lt; 1 + ltm-&gt;tm_mon&lt;&lt; endl;
+   cout &lt;&lt; &quot;Day: &quot;&lt;&lt;  ltm-&gt;tm_mday &lt;&lt; endl;
+   cout &lt;&lt; &quot;Time: &quot;&lt;&lt; 1 + ltm-&gt;tm_hour &lt;&lt; &quot;:&quot;;
+   cout &lt;&lt; 1 + ltm-&gt;tm_min &lt;&lt; &quot;:&quot;;
+   cout &lt;&lt; 1 + ltm-&gt;tm_sec &lt;&lt; endl;
+}</code></pre>
+</blockquote>
+
+<p>Когда приведенный выше код компилируется и выполняется, он производит следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Number of sec since January 1, 1970:1294548238
+Year: 2011
+Month: 1
+Day: 8
+Time: 22: 44:59</code></pre>
+</blockquote>

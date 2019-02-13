@@ -1,0 +1,293 @@
+﻿<h1>C ++ - Препроцессор</h1>
+
+<p>Препроцессоры - это директивы, которые дают инструкции компилятору для предварительной обработки информации до начала фактической компиляции.</p>
+
+<p>Все директивы препроцессора начинаются с #, и перед директивой препроцессора на строке могут появляться только символы пробела.&nbsp;Директивы препроцессора не являются инструкциями C ++, поэтому они не заканчиваются точкой с запятой <code>(;)</code>.</p>
+
+<p>Вы уже видели&nbsp;директиву&nbsp;<code>#include</code>&nbsp;во всех примерах.&nbsp;Этот макрос используется для включения файла заголовка в исходный файл.</p>
+
+<p>Существует ряд препроцессорных директив, поддерживаемых C ++ типа <code>#include, #define, #if, #else, #line </code>и т. д. Давайте посмотрим важные директивы -</p>
+
+<h2>Префикс #define</h2>
+
+<p>Директива префикса <code>#define</code> создает символические константы.&nbsp;Символьная константа называется&nbsp;<strong>макросом,</strong>&nbsp;а общая форма директивы:</p>
+
+<blockquote>
+<pre>
+<code>#define macro-name replacement-text</code></pre>
+</blockquote>
+
+<p>Когда эта строка появляется в файле, все последующие вхождения макроса в этот файл будут заменены заменяющим текстом перед компиляцией программы.&nbsp;Например:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+#define PI 3.14159
+
+int main () {
+   cout &lt;&lt; &quot;Value of PI :&quot; &lt;&lt; PI &lt;&lt; endl; 
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Теперь давайте сделаем предварительную обработку этого кода, чтобы увидеть результат, предполагающий, что у нас есть файл исходного кода.&nbsp;Поэтому давайте скомпилируем его с опцией -E и перенаправим результат на <code>test.p</code>.&nbsp;Теперь, если вы проверите <code>test.p</code>, у него будет много информации, а внизу вы найдете значение, замененное следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>$gcc -E test.cpp &gt; test.p
+
+...
+int main () {
+   cout &lt;&lt; &quot;Value of PI :&quot; &lt;&lt; 3.14159 &lt;&lt; endl; 
+   return 0;
+}</code></pre>
+</blockquote>
+
+<h2>Функциональные макросы</h2>
+
+<p>Вы можете использовать <code>#define </code>для определения макроса, который будет принимать аргумент следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+#define MIN(a,b) (((a)&lt;(b)) ? a : b)
+
+int main () {
+   int i, j;
+   
+   i = 100;
+   j = 30;
+   
+   cout &lt;&lt;&quot;The minimum is &quot; &lt;&lt; MIN(i, j) &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>The minimum is 30</code></pre>
+</blockquote>
+
+<h2>Условная компиляция</h2>
+
+<p>Существует несколько директив, которые можно использовать для компиляции выборочных частей исходного кода вашей программы.&nbsp;Этот процесс называется условной компиляцией.</p>
+
+<p>Конструкция условного препроцессора очень похожа на структуру выбора<code> if</code>.&nbsp;Рассмотрим следующий код препроцессора:</p>
+
+<blockquote>
+<pre>
+<code>#ifndef NULL
+   #define NULL 0
+#endif</code></pre>
+</blockquote>
+
+<p>Вы можете скомпилировать программу для цели отладки.&nbsp;Вы также можете включить или отключить отладку с использованием одного макроса следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#ifdef DEBUG
+   cerr &lt;&lt;&quot;Variable x = &quot; &lt;&lt; x &lt;&lt; endl;
+#endif</code></pre>
+</blockquote>
+
+<p>Это приводит к&nbsp;<strong>компиляции</strong>&nbsp;инструкции&nbsp;<strong>cerr</strong>&nbsp;в программе, если символьная константа <code>DEBUG</code> была определена до директивы<code> #ifdef DEBUG</code>.&nbsp;Вы можете использовать <code>#if 0 statment</code>, чтобы прокомментировать часть программы следующим образом:</p>
+
+<blockquote>
+<pre>
+<code>#if 0
+   code prevented from compiling
+#endif</code></pre>
+</blockquote>
+
+<p>Попробуем следующий пример:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+#define DEBUG
+
+#define MIN(a,b) (((a)&lt;(b)) ? a : b)
+
+int main () {
+   int i, j;
+   
+   i = 100;
+   j = 30;
+
+#ifdef DEBUG
+   cerr &lt;&lt;&quot;Trace: Inside main function&quot; &lt;&lt; endl;
+#endif
+
+#if 0
+   /* This is commented part */
+   cout &lt;&lt; MKSTR(HELLO C++) &lt;&lt; endl;
+#endif
+
+   cout &lt;&lt;&quot;The minimum is &quot; &lt;&lt; MIN(i, j) &lt;&lt; endl;
+
+#ifdef DEBUG
+   cerr &lt;&lt;&quot;Trace: Coming out of main function&quot; &lt;&lt; endl;
+#endif
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>The minimum is 30
+Trace: Inside main function
+Trace: Coming out of main function</code></pre>
+</blockquote>
+
+<h2>Операторы # и ##</h2>
+
+<p>Операторы препроцессора # и ## доступны в C ++ и ANSI / ISO C. Оператор # заставляет токен заменяющего текста преобразовываться в строку, окруженную кавычками.</p>
+
+<p>Рассмотрим следующее макроопределение -</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+#define MKSTR( x ) #x
+
+int main () {
+
+   cout &lt;&lt; MKSTR(HELLO C++) &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>HELLO C++</code></pre>
+</blockquote>
+
+<p>Посмотрим, как это работает.&nbsp;Легко понять, что препроцессор C ++ превращает строку:</p>
+
+<blockquote>
+<pre>
+<code>cout &lt;&lt; MKSTR(HELLO C++) &lt;&lt; endl;</code></pre>
+</blockquote>
+
+<p>Над строкой будет переведена следующая строка:</p>
+
+<blockquote>
+<pre>
+<code>cout &lt;&lt; &quot;HELLO C++&quot; &lt;&lt; endl;</code></pre>
+</blockquote>
+
+<p>Оператор ## используется для объединения двух токенов.</p>
+
+<blockquote>
+<pre>
+<code>#define CONCAT( x, y )  x ## y</code></pre>
+</blockquote>
+
+<p>Когда CONCAT появляется в программе, его аргументы конкатенируются и используются для замены макроса.&nbsp;Например,<code> CONCAT (HELLO, C ++) </code>заменяется на <code>HELLO C ++</code>&nbsp;в программе следующим образом.</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+#define concat(a, b) a ## b
+int main() {
+   int xy = 100;
+   
+   cout &lt;&lt; concat(x, y);
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>100</code></pre>
+</blockquote>
+
+<p>Посмотрим, как это работает.&nbsp;Легко понять, что препроцессор C ++ преобразует:</p>
+
+<blockquote>
+<pre>
+<code>cout &lt;&lt; concat(x, y);</code></pre>
+</blockquote>
+
+<p>Над строкой будет преобразована следующая строка:</p>
+
+<blockquote>
+<pre>
+<code>cout &lt;&lt; xy;</code></pre>
+</blockquote>
+
+<h2>Предопределенные макросы C ++</h2>
+
+<p>C ++ предоставляет ряд предопределенных макросов, упомянутых ниже -</p>
+
+<blockquote>
+<p><code>__LINE__</code></p>
+</blockquote>
+
+<p>Он содержит текущий номер строки программы при компиляции.</p>
+
+<blockquote>
+<p><code>__FILE__</code></p>
+</blockquote>
+
+<p>Он содержит текущее имя файла программы при компиляции.</p>
+
+<blockquote>
+<p><code>__DATE__</code></p>
+</blockquote>
+
+<p>Он содержит строку формы <code>month / day / year</code>, которая является датой перевода исходного файла в объектный код.</p>
+
+<blockquote>
+<p><code>__TIME__</code></p>
+</blockquote>
+
+<p>Это содержит строку формы <code>hour: minute: second</code> - время, в которое была скомпилирована программа.</p>
+
+<p>Давайте посмотрим пример для всех вышеперечисленных макросов:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+int main () {
+   cout &lt;&lt; &quot;Value of __LINE__ : &quot; &lt;&lt; __LINE__ &lt;&lt; endl;
+   cout &lt;&lt; &quot;Value of __FILE__ : &quot; &lt;&lt; __FILE__ &lt;&lt; endl;
+   cout &lt;&lt; &quot;Value of __DATE__ : &quot; &lt;&lt; __DATE__ &lt;&lt; endl;
+   cout &lt;&lt; &quot;Value of __TIME__ : &quot; &lt;&lt; __TIME__ &lt;&lt; endl;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Если мы скомпилируем и запустим код выше, это приведет к следующему результату:</p>
+
+<blockquote>
+<pre>
+<code>Value of __LINE__ : 6
+Value of __FILE__ : test.cpp
+Value of __DATE__ : Feb 28 2011
+Value of __TIME__ : 18:52:48</code></pre>
+</blockquote>

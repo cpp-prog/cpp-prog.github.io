@@ -1,0 +1,30 @@
+﻿<h1>Шаблонный typedef</h1>
+
+<p>В стандартном C++ ключевое слово <code>typedef</code> можно использовать только как определение синонима для другого типа, в том числе, как синоним для спецификации шаблона с указанием всех его параметров. Но невозможно создание шаблонного синонима. Например:</p>
+
+<pre>
+<code>template&lt; typename First, typename Second, int third&gt;
+class SomeType;
+
+template&lt; typename Second&gt;
+typedef SomeType&lt;OtherType, Second, 5&gt; TypedefName; // Невозможно в C++</code>
+</pre>
+
+<p>Это не будет компилироваться.</p>
+
+<p>В C++11 добавлена эта возможность со следующим синтаксисом:</p>
+
+<pre>
+<code>template&lt; typename First, typename Second, int third&gt;
+class SomeType;
+
+template&lt; typename Second&gt;
+using TypedefName = SomeType&lt;OtherType, Second, 5&gt;;</code>
+</pre>
+
+<p>В C++11 директива <code>using</code> также может использоваться для создания псевдонима типа данных.</p>
+
+<pre>
+<code>typedef void (*OtherType)(double);	// Старый стиль
+using OtherType = void (*)(double);	// Новый синтаксис</code>
+</pre>

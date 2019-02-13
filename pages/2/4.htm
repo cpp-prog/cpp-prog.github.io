@@ -1,0 +1,48 @@
+﻿<h1>C++ - Комментарии</h1>
+
+<p>Комментарии программы - это пояснительные утверждения, которые вы можете включить в код C ++.&nbsp;Эти комментарии помогают всем, кто читает исходный код.&nbsp;Все языки программирования допускают некоторые формы комментариев.</p>
+
+<p>C ++ поддерживает однострочные и многострочные комментарии.&nbsp;Все символы, доступные внутри любого комментария, игнорируются компилятором C ++.</p>
+
+<p>С ++ комментарии начинаются с <code>/ *</code> и заканчиваются на <code>* /</code>.&nbsp;Например:</p>
+
+<blockquote>
+<pre>
+<code>/* This is a comment */
+
+/* C++ comments can also
+   * span multiple lines
+*/</code></pre>
+</blockquote>
+
+<p>Комментарий также может начинаться с <code>//</code>, доходящего до конца строки.&nbsp;Например:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+
+main() {
+   cout &lt;&lt; &quot;Hello World&quot;; // prints Hello World
+   
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда этот код скомпилирован, он будет игнорировать<code>&nbsp;// prints Hello World</code><strong>,</strong>&nbsp;а окончательный исполняемый файл будет выдавать следующий результат:</p>
+
+<blockquote>
+<pre>
+<code>Hello World</code></pre>
+</blockquote>
+
+<p>Внутри <code>/ *</code> и <code>* /</code> комментарий <code>//</code> символы не имеют особого значения.&nbsp;В комментарии <code>//</code>,<code> / *</code> и <code>* / </code>не имеют особого значения.&nbsp;Таким образом, вы можете &laquo;вложить&raquo; один вид комментария в другой вид.&nbsp;Например:</p>
+
+<blockquote>
+<pre>
+<code>/* Comment out printing of Hello World:
+
+cout &lt;&lt; &quot;Hello World&quot;; // prints Hello World
+
+*/</code></pre>
+</blockquote>

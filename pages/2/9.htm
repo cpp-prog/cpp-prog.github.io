@@ -1,0 +1,83 @@
+﻿<h1>C++ - Типы модификаторов</h1>
+
+<p>C ++ допускает, чтобы&nbsp;символы <code>char, int&nbsp;и&nbsp;double</code>&nbsp;имели предшествующие им модификаторы.&nbsp;Модификатор используется для изменения значения базового типа, чтобы он более точно соответствовал потребностям различных ситуаций.</p>
+
+<p>Модификаторы типа данных:</p>
+
+<ul>
+	<li>signed</li>
+	<li>unsigned</li>
+	<li>long</li>
+	<li>short</li>
+</ul>
+
+<p>Модификаторы&nbsp;<code>signed, unsigned, long&nbsp;и&nbsp;short</code><strong>&nbsp;</strong>могут применяться к целым базовым типам.&nbsp;Кроме того,<code>&nbsp;signed</code>&nbsp;и&nbsp;<code>unsigned</code>&nbsp;могут применяться к <code>char</code>, и&nbsp;<code>long</code>&nbsp;можно применять к <code>double</code>.</p>
+
+<p>Модификаторы,&nbsp;<code>signed</code>&nbsp;и&nbsp;<code>unsigned</code><strong>,</strong>&nbsp;также могут использоваться в качестве префикса для<code>&nbsp;long</code>&nbsp;или&nbsp;<code>short&nbsp;</code>модификаторов.&nbsp;Например,&nbsp;<code>unsigned long int&nbsp;.</code></p>
+
+<p>C ++ допускает сокращенное обозначение для объявления&nbsp;<code>unsigned, short,</code>&nbsp;или<code>&nbsp;long</code>&nbsp;целых чисел.&nbsp;Вы можете просто использовать слово&nbsp;<code>unsigned, short&nbsp;</code>или&nbsp;<code>long</code><strong>,</strong>&nbsp;без&nbsp;<code>int</code>&nbsp;.&nbsp;Это автоматически подразумевает<code>&nbsp;int</code>&nbsp;.&nbsp;Например, следующие два оператора объявляют беззнаковые целочисленные переменные.&nbsp;</p>
+
+<blockquote>
+<pre>
+<code>unsigned x;
+unsigned int y;</code></pre>
+</blockquote>
+
+<p>Чтобы понять разницу между тем, как подписанные и беззнаковые целочисленные модификаторы интерпретируются C ++, вы должны запустить следующую короткую программу:</p>
+
+<blockquote>
+<pre>
+<code>#include &lt;iostream&gt;
+using namespace std;
+ 
+/* This program shows the difference between
+   * signed and unsigned integers.
+*/
+int main() {
+   short int i;           // a signed short integer
+   short unsigned int j;  // an unsigned short integer
+
+   j = 50000;
+
+   i = j;
+   cout &lt;&lt; i &lt;&lt; &quot; &quot; &lt;&lt; j;
+
+   return 0;
+}</code></pre>
+</blockquote>
+
+<p>Когда эта программа запускается, следующим является вывод:</p>
+
+<blockquote>
+<pre>
+<code>-15536 50000</code></pre>
+</blockquote>
+
+<p>Вышеприведенный результат заключается в том, что бит-шаблон, который представляет 50 000 в виде короткого целого без знака, интерпретируется как -15536 ​​коротким.</p>
+
+<h2>Тип Квалификаторы в C ++</h2>
+
+<p>Спецификаторы типов предоставляют дополнительную информацию о переменных, которым они предшествуют.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td><strong>const</strong></td>
+			<td>
+			<p>Объекты типа&nbsp;<strong>const</strong>&nbsp;не могут быть изменены программой во время выполнения.</p>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>volatile</strong></td>
+			<td>
+			<p>Модификатор&nbsp;<strong>volatile</strong>&nbsp;сообщает компилятору, что значение переменной может быть изменено способами, явно не указанными программой.</p>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>restrict</strong></td>
+			<td>
+			<p>Указатель&nbsp;<strong>restrict</strong>&nbsp;изначально является единственным средством, с помощью которого объект, к которому он указывает, может быть доступен.&nbsp;Только C99 добавляет новый классификатор типа, называемый ограничителем.</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
